@@ -1,0 +1,411 @@
+-- Main()
+
+---- XorExperiment.Initialize(string, XmlElement)
+------ XmlUtils().GetValueAsInt(XmlElement, string)
+-------- read XML tag and grab value as int
+-------- TryGetValueAsInt(XmlElement, string)
+------ XmlUtils().TryGetValueAsString(XmlElement, string)
+-------- read XML tag and grab value as string
+------ ExperimentUtils.CreateActivationScheme(XmlElement, string)
+-------- choose for networks to be acyclic or cyclic (if cyclic, there are more settings)
+-------- NetworkActivationScheme.CreateAcyclicScheme()
+---------- sets up an acyclic network
+---------- new NetworkActivationScheme()
+------------ absolutely nothing goes on in the constructor
+-------- NetworkActivationScheme.CreateCyclicFixedTimestepsScheme(int)
+---------- sets up a cyclic network whose outputs will be taken after a particular amount of timesteps
+-------- NetworkActivationScheme.CreateCyclicRelaxingActivationScheme(double, int)
+---------- sets up a cyclic network whose outputs will be taken after either relaxing or a max amount of timesteps has passed
+------ ExperimentUtils.ReadParallelOptions(XmlElement)
+-------- multithreading and/or parallel-computing crap
+------ new NeatEvolutionAlgorithmParameters()
+-------- specifies parameters for populations in the EA
+-------- NormalizeProportions()
+---------- normalizes population proportion values (asexual and sexual reproduction groups) to add up to 1
+------ new NeatGenomeParameters()
+-------- specifies parameters for selecting and attributes of mutations
+-------- CreateRouletteWheelLayout()
+---------- sets up a new roulette wheel for choosing mutations
+---------- new RouletteWheelLayout(double [])
+------------- note to self: sum of the probabilities do not have to equal 1... rather they are proportions of the total
+-------- CreateRouletteWheelLayout_NonDestructive()
+----------- sets up a new roulette wheel for choosing nondestructive mutations
+-------- CreateConnectionWeightMutationScheme_Default()
+----------- sets how weight mutations are modified and affect surrounding weights
+----------- new ConnectionMutationInfoList(int)
+------------- absolutely nothing goes on in this constructor except that it uses its parent-class constructor (List)
+----------- new ConnectionMutationInfo(double, ConnectionPerturbanceType, ConnectionSelectionType, double, int, double, double)
+------------- literally only sets variables in the object by using arguments given in constructor
+----------- ConnectionMutationInfoList.Initialize()
+------------- sets up the RouletteWheelLayout to be used for selecting which weight mutation type to use
+
+---- XorExperiment.CreateGenomeFactory()
+------ new NeatGenomeFactory(int, int, NeatGenomeParameters)
+-------- creates a "factory" for spawning initial populations of genomes (contains all settings for spawning genomes)
+-------- DefaultActivationFunctionLibrary.CreateLibraryNeat(IActivationFunction)
+---------- creates an activation function library to use
+------------ new ActivationFunctionInfo(int, double, IActivationFunction)
+------------ DefaultActivationFunctionLibrary(IList<ActivationFunctionInfo>)
+-------------- creates a RouletteWheelLayout for selecting activation functions and builds a dictionary containing function IDs
+-------------- CreateFunctionDictionary(IList<IActivationFunctionInfo>)
+---------------- creates the dictionary for function IDs
+-------- NeatGenomeParameters.CreateSimplifyingParameters(NeatGenomeParameters)
+---------- setting a mode of NEAT where the search converges on simple networks with few connections (no addition-type mutations to be used)
+---------- new ConnectionMutationInfoList(ConnectionMutationInfoList)
+------------ copy constructor
+
+---- IGenomeFactory<NeatGenome>.CreateGenomeList(int, uint)
+------ initializes a population of NEAT Genomes
+------ CreateGenome(uint)
+-------- creates a single genome at a specified birth generation
+-------- NeuronGeneList(uint)
+---------- absolutely nothing happens in this constructor except for calling its parent construction (List, INodeList)
+---------- CreateNeuronGene(uint, NodeType)
+------------ begins to set up an abritrary gene with things like innovation ID, function ID, NodeType, etc
+------------ new NeuronGene(uint, NodeType, int)
+---------- new ConnectionDefinition(uint, int, int)
+------------ defines a connection with a innovation ID, source neuron ID, and target neuron ID
+---------- new ConnectionGeneList(int)
+---------- GenerateRandomConnectionWeight()
+------------ generates a random weight within a specified range
+---------- new ConnectionGene(uint, uint, uint, double)
+------------ sets connection gene things such as innovation ID, source neuron ID, target neuron ID
+---------- ConnectionGeneList.SortByInnovationId()
+------------ uses custom comparators (ConnectionGeneComparer) with the standard sort function
+---------- CreateGenome(uint, uint, NeuronGeneList, ConnectionGeneList, int, int, bool)
+------------ creates a single genome by use of the constructor, leaves the NeatGenomeFactory object used as a reference, and without having to come up with randomized things from scratch (namely NeuronGeneList and ConnectionGeneList)
+------------ new NeatGenome(NeatGenomeFactory, uint, uint, NeuronGeneList, ConnectionGeneList, int, int, bool)
+-------------- constructs a new NeatGenome object along with its NeatGenomeFactory, NeuronGeneList, ConnectionGeneList, etc
+-------------- RebuildNeuronGeneConnectionInfo()
+---------------- reconstructs or re-registers source and target neuron IDs in neurons
+---------------- NeuronGeneList.GetNeuronById(uint)
+------------------ searches and returns a neuron by using its ID
+------------------ BinarySearch(uint)
+-------------------- self-explanatory... uses neuron ID
+-------------- new EvaluationInfo(int)
+---------------- used to construct an object that keeps a history on an objects fitness
+---------------- new DoubleCircularBufferWithStats(int)
+------------------ a circular array for holding double values
+-------------- CountAuxStateNodes()
+---------------- counts how many neurons have activation functions that take auxilary arguments
+---------------- IActivationFunctionLibrary.GetFunction(int)
+------------------ grabs the particular activation function with specified function ID from a dictionary
+-------------- PerformIntegrityCheck()
+---------------- checks to make sure the NeatGenome object was set up correctly
+---------------- new ConnectionEndpointStruct(uint, uint)
+------------------ a lightweight version of a connection gene used as a key for looking up things in dictionaries
+------------------ constructor just uses values given as arguments to set variables (nothing special)
+---------------- new NeuronConnectionInfo()
+------------------ same as ConnectionEndpointStruct, it is used as a key in dictionaries
+------------------ a struct that contains a HastSet of source and target neuron IDs
+---------------- CyclicNetworkTest.IsNetworkCyclic(INetworkDefinition)
+------------------ test if a given network contains cycles
+------------------ new CyclicNetworkTest().IsNetworkCyclicInternal(INetworkDefinition)
+-------------------- no idea why an "internal" version exists... tests for cycles
+-------------------- INetworkDefinition.GetConnectivityData()
+---------------------- for similar purposes as ConnectionEndpointStruct, builds a minimalistic version of a neural network
+---------------------- new NodeConnectivityData(uint, HashSet<uint>, HashSet<uint>)
+------------------------ for similar purposes as ConnectionEndpointStruct... minimalistic details about what connects to a node
+---------------------- new NetworkConnectivityData(NodeConnectivityData [], Dictionary<uint, NodeConnectivityData>)
+------------------------ constructor just uses values given as arguments to set variables
+-------------------- TraverseNode(uint)
+---------------------- self-explanatory... travels through a network beginning at a specified node ID and exits when it finds a cycle
+---------------------- NetworkConnectivityData.GetNodeDataById(uint)
+------------------------ grabs and returns a NodeConnectivityNode object by searching for node ID
+
+---- XorExperiment.CreateEvolutionAlgorithm()
+------ new ManhattanDistanceMetric(double, double, double)
+-------- creates a distance metric that uses Manhattan distance
+------ new ParallelKMeansClusteringStrategy<NeatGenome>(IDistanceMetric, ParallelOptions)
+-------- initializes a parallelized k-means clustering strategy for speciation in regards to distance metrics
+------ ExperimentUtils.CreateComplexityRegulationStrategy(string, int)
+-------- set how to regulate complexity and simpleness (see NeatGenomeParameters.CreateSimplifyingParameters())
+-------- NullComplexityRegulationStrategy()
+---------- a complexity regulation strategy that does not exist... no regulation means that the networks keep on complexifying
+-------- DefaultComplexityRegulationStrategy(ComplexityCeilingType, double)
+---------- a complexity regulation strategy that switches to simplification when a threshold has been met
+------ new NeatEvolutionAlgorithm<NeatGenome>(NeatEvolutionAlgorithmParameters, ISpeciationStrategy, IComplexityRegulationStrategy)
+-------- sets up everything needed for the EA (the speciation strategy to use, the complexity regulation strategy to use, EA parameters to use, etc)
+-------- NeatEvolutionAlgorithmParameters.CreateSimplifyingParameters()
+---------- makes the entire population only use asexual reproduction
+---------- new NeatEvolutionAlgorithmParameters(NeatEvolutionAlgorithmParameters)
+------------ copy constructor
+-------- new NeatAlgorithmStats(NeatEvolutionAlgorithmParameters)
+---------- keeps track of specific stats during the run of the EA (DoubleCircularBufferWithStats in use)
+------ new XorBlackBoxEvaluator()
+-------- allocates a XorBlackBoxEvaluator... the main purpose of the object is to determine fitness of genome/phenome
+------ CreateGenomeDecoder()
+-------- creates and returns a genome decoder object for translating between genomes to phenomes
+-------- new NeatGenomeDecoder(NetworkActivationScheme)
+---------- use the NetworkActivationScheme in decoded networks and return the decoder object
+---------- GetDecodeMethod(NetworkActivationScheme)
+------------ return decoder delegate (IBlackBox DecodeGenome(NeatGenome)) for the specific NetworkActivationScheme
+------------ DecodeToFastAcyclicNetwork(NeatGenome)
+-------------- decoder for FastAcyclicNetwork
+-------------- FastAcyclicNetworkFactory.CreateFastAcyclicNetwork(INetworkDefinition)
+---------------- constructs a FastAcyclicNetwork from INetworkDefinition object
+---------------- new AcyclicNetworkDepthAnalysis()
+------------------ nothing done here
+---------------- AcyclicNetworkDepthAnalysis.CalculateNodeDepths(INetworkDefinition)
+------------------ places node depth information into each network node
+------------------ AcyclicNetworkDepthAnalysis.TraverseNode(NodeConnectivityData, int)
+-------------------- uses recursion to traverse, find, and set the highest depth for a Node
+------------------ new NetworkDepthInfo(int, int [])
+-------------------- constructs an object that keeps information on network depth
+---------------- new NodeInfo
+------------------ a struct that contains info on a node such as neuron ID, INetworkDefinition node ID, and depth level
+---------------- new NodeDepthComparer
+------------------ custom comparator for comparing node depths
+---------------- new INetworkConnection
+------------------ a structure that acts usually acts as a single element in IConnectionList
+---------------- new FastConnection
+------------------ minimalistic structure that represents a connection between two NEURONS
+---------------- new LayerInfo
+------------------ a structure that contains info on layers of ANNs (layers are groups of nodes that are at the same depth) by keeping track of the last node and connection ID in a particular layer
+---------------- new FastAcyclicNetwork(IActivationFunction [], double [][], FastConnection [], LayerInfo [], int [], int, int, int)
+------------------ initializes a new FastAcyclicNetwork phenome
+------------------ new SignalArray(double [], int, int)
+-------------------- a type of array that wraps an array at a specific offset within a large array (kind of like a subset within a set)
+-------------------- new SharpNeatException(string)
+---------------------- a pointless custom exception that really doesn't add much
+------------------ new MappingSignalArray(double [], int [])
+-------------------- an array that uses a map to know what indices to check for values by using a map
+-------------------- ValidateMapIndexes()
+---------------------- checks to make sure that the map doesn't contain references to indices that are outside the wrapped array
+------------ DecodeToCyclicNetwork(NeatGenome)
+-------------- decoder for CyclicNetwork
+-------------- CyclicNetworkFactory.CreateCyclicNetwork(INetworkDefinition, NetworkActivationScheme)
+---------------- constructs a CyclicNetwork by using an INetworkDefinition  and NetworkActivationScheme
+---------------- InternalDecode(INetworkDefinition, out List<Neuron>, out List<Connection>)
+------------------ constructs lists of neurons and connections that are properly set up and connected to each other
+------------------ new Neuron(uint, NodeType, IActivationFunction, double [])
+-------------------- constructs a new neuron... this contains a check for always setting bias output to 1.0
+------------------ new Connection(Neuron, Neuron, double)
+-------------------- constructs a new connection... this uses Neurons as sources and targets
+---------------- new RelaxingCyclicNetwork(List<Neuron>, List<Connection>, int, int, int, double)
+------------------ constructs a new cyclic network that takes output values once it has relaxed or reached a max number of timesteps
+------------------ new CyclicNetwork(List<Neuron>, List<Connection>, int, int, int)
+-------------------- constructs a new cyclic network that takes output values once a max number timesteps have passed
+------------ DecodeToFastCyclicNetwork(NeatGenome)
+-------------- decoder for FastCyclicNetwork
+-------------- FastCyclicNetworkFactory.CreateFastCyclicNetwork(INetworkDefinition, NetworkActivationScheme)
+---------------- constructs a new FastCyclicNetwork
+---------------- InternalDecode(INetworkDefinition, int, out FastConnection [], out IActivationFunction [], out double [][])
+------------------ constructs a list of FastConnections, IActivationFunctions, and auxiliary arguments
+------------------ CreateFastConnectionArray(INetworkDefinition)
+-------------------- constructs a list of FastConnections (they are properly sorted... hence why they are fast)
+-------------------- INodeList.IsSorted()
+---------------------- checks to make sure the INodeList are sorted by ascending ID
+------------------ new FastRelaxingCyclicNetwork(FastConnection [], IActivationFunction [], double [][], int, int, int, int, double)
+-------------------- constructs a fast cyclic network whose outputs are taken once the network relaxes has activated a max number of timesteps
+-------------------- new FastCyclicNetwork(FastConnection [], IActivationFunction [], double [][], int, int, int, int)
+---------------------- constructs a fast cyclic network whose outputs are taken once the network has activation a certain number of timesteps
+------ new ParallelGenomeListEvaluator<NeatGenome, IBlackBox>(IGenomeDecoder<NeatGenome>, IBlackBox>, IPhenomeEvaluator<IBlackBox>, ParallelOptions)
+-------- constructs a new evaluator for lists of genomes
+-------- new ParallelGenomeListEvaluator<NeatGenome, IBlackBox>(IGenomeDecoder<NeatGenome>, IPhenomeEvaluator<NeatGenome>, ParallelOptions, bool)
+---------- constructs a new evalutor for lists of genomes that also caches the phenome for a genome
+------ SelectiveGenomeListEvaluator<NeatGenome>.CreatePredicate_OnceOnly())
+-------- creates a predicate that returns a boolean based on whether the genome has been evaluated
+------ new SelectiveGenomeListEvaluator<NeatGenome(IGenomeListEvaluator<NeatGenome>, System.Predicate<NeatGenome>)
+-------- constructs a new evaluator for lists of genomes that meet a particular selection requirement (probably used for evaluating genomes that belong to the same species)
+------ NeatEvolutionAlgorithm<NeatGenome>.Initialize(IGenomeListEvaluator<NeatGenome>, IGenomeFactory<NeatGenome>, List<NeatGenome>)
+-------- initializes the NEAT evolutionary algorithm
+-------- AbstractEvolutionAlgorithm<TGenome>.Initialize(IGenomeListEvaluator<TGenome>, IGenomeFactory<TGenome>, List<TGenome>)
+---------- initializes an arbitrary EA with parameters that all EAs should have in common
+---------- new UpdateScheme(TimeSpan)
+------------ constructs a scheme to which the EA will update every TimeSpan
+-------- Initialize()
+---------- performs the final steps of initializing the NEAT evoluationary algorithm
+---------- SelectiveGenomeListEvaluator<TGenome>.Evaluate(List<TGenome>)
+------------ evaluates selected genomes that pass a filter
+------------ ParallelGenomeListEvaluator<TGenome>.Evaluate(List<TGenome>)
+-------------- evaluates genomes by decoding them to phenome and using the phenome evaluator
+-------------- Evaluate_Caching(IList<TGenome>)
+---------------- evaluates a list of genomes and allows caching of phenomes
+---------------- EvaluationInfo.SetFitness(double)
+------------------ self-explanatory
+---------------- IPhenomeEvaluator<TPhenome>.Evaluate(TPhenome)
+------------------ evaluates a phenome and returns its fitness
+------------------ IBlackBox.ResetState()
+-------------------- resets the phenome
+-------------------- FastAcyclicNetwork.ResetState()
+---------------------- no resetting done at all... everything is taken care of in activation
+-------------------- CyclicNetwork.ResetState()
+---------------------- zeroes InputValue and OutputValue of all neurons (except bias and input) and OutputValue of all connections
+-------------------- FastCyclicNetwork.ResetState()
+---------------------- just zeroes post/pre-activation arrays
+------------------ IBlackBox.Activate()
+-------------------- activates the phenome
+-------------------- FastAcyclicNetwork.Activate()
+---------------------- activates a FastAcyclicNetwork by proceeding through the network one depth layer at a time; this ensures that all the input values have arrived correctly at the next layer
+-------------------- CyclicNetwork.Activate()
+---------------------- activates a CyclicNetwork by taking advantage of the fact that output values are initialized to 0 at first and then just accumulating output values... looking at Connection.OutputValue gives me an idea of how to implement things...
+-------------------- RelaxingCyclicNetwork.Activate()
+---------------------- activates a RelaxingCyclicNetwork much like a CyclicNetwork except that it takes output values upon relaxing
+-------------------- FastCyclicNetwork.Activate()
+---------------------- activates a FastCyclicNetwork and takes the output value after a max number of timesteps... takes advantage of O(1) array access and limiting memory usage by having post/pre-activation values in arrays
+-------------------- FastRelaxingCyclicNetwork.Activate()
+---------------------- activates a FastRelaxingCyclicNetwork much like FastCyclicNetwork and RelaxingCyclicNetwork
+------------------ new FitnessInfo(double, double)
+-------------------- keeps information on fitness and alternative fitness
+---------- ParallelKMeansClustering<TGenome>.InitializeSpeciation(IList<TGenome>, int)
+------------ initializes the speciation aglorithm for k-means clustering for k species
+------------ new Specie<TGenome>(uint, int, int)
+-------------- creates a new specie with a set ID, IDx, and capacity
+------------ SpeciateGenomes(IList<TGenome>, IList<Specie<TGenome>>)
+-------------- speciates the genomes and places them in these species
+-------------- SpeciationUtils.TestEmptySpecies(IList<Specie<TGenome>>)
+---------------- returns a boolean indicating that a species is empty or not
+-------------- FindClosestSpecie(TGenome, IList<Specie<TGenome>>)
+---------------- finds the species that the genome is closest to, based on distance from centroid
+---------------- ManhattanDistanceMetric.MeasureDistance(CoordinateVector, CoordinateVector)
+------------------ measures the distance from a genome's CoordinateVector to a centroid CoordinateVector
+-------------- CalculateSpecieCentroid(Specie<TGenome>)
+---------------- self-explanatory
+---------------- ManhattanDistanceMetric.CalculateCentroidParallel(List<CoordinateVector>)
+------------------ decides a new centroid
+------------------ new CoordinateVector(KeyValuePair<uint, double> [])
+-------------------- constructs a CoordinateVector that consists of an array of KeyValuePair<ulong, double> objects where the ulong key is a the connection innovation ID and the double value is the connection weight  
+-------------------- IsSorted(KeyValuePair<ulong, double []> [])
+---------------------- checks to make sure the KeyValuePair array is sorted by ascending ID
+-------------- SpeciateUntilConvergence(IList<TGenome>, IList<Specie<TGenome>>)
+---------------- self-explanatory
+---------------- GetGenomesByDistanceFromSpecie(IList<TGenome>, IList<Specie<TGenome>>)
+------------------ spits out genomes into a sorted array based on how far they are from the centroid
+------------------ new GenomeDistancePair<TGenome>(double, TGenome)
+-------------------- constructs an object that keeps information on a genome and how far it is from its specie's centroid
+------------------ ParallelSort.QuicksortParallel<GenomeDistancePair<TGenome>(GenomeDistancePair<TGenome> [])
+-------------------- parallelized custom version of quicksort that sorts the array into descending order based on distance
+-------------------- QuicksortParallel<T>(T [], int, int)
+---------------------- the main body of parallelized quicksort
+---------------------- QuicksortSequential<T>(T [], int, int)
+------------------------ a small sub-routine of quicksort that attempts to decide partitions of the array to use a divide-and-conquer approach
+------------------------ Partition<T>(T [], int, int)
+-------------------------- a simple partitioning of an array
+-------------------------- Swap<T>(T [], int, int)
+---------------------------- simple swapping of elements in an array
+-------------- PerformIntegrityCheck(IList<Specie<TGenome>>)
+---------------- makes sure that all the genomes are within the correct specie and that there are in fact genomes within said specie
+---------- TestForEmptySpecies(IList<Specie<TGenome>>)
+------------ makes sure there aren't any empty species
+---------- SortSpecieGenomes()
+------------ sorts genomes in species based on fitness and then on age
+---------- UpdateBestGenome()
+------------ the species are already sorted, so this just gets the most fit genome
+
+---- AbstractGenerationalAlgorithm<TGenome>.StartContinue()
+------ AlgorithmThreadMethod()
+-------- NeatEvolutionAlgorithm<TGenome>.PerformOneGeneration()
+---------- the actual NEAT EA algorithm takes place here
+---------- CalcSpecieStats(out int)
+------------ just gathers information for each species to place into a SpecieStats array that help to determine how many genomes to have, how many offspring to produce, and how many elite genomes to keep for that particular species based on fitness
+------------ new SpecieStats()
+-------------- contains information on a species
+------------ Specie<TGenome>.CalcMeanFitness()
+-------------- self-explanatory... calculates the average fitness for specie
+-------------- CalcTotalFitness()
+---------------- calculates the total fitness for a specie
+------------ Utilities.ProbabilisticRound(double, FastRandom)
+---------------- rounds a value to the nearest whole number based on probability of how far it is from the nearest whole number
+------------ SumTargetSizeInt(SpecieStats [])
+-------------- just sums up the _targetSizeInt members of each SpecieStats object in the array
+------------ RouletteWheel.SingleThrowEven(int, FastRandom)
+-------------- selects a number between 0 and a given int with a equal probability of being selected
+---------- CreateOffspring(SpecieStats [], int)
+------------ creates offspring from the current genome list based off of the proportional data gathered in the SpecieStats array and the total amount of offspring to be made
+------------ IGenome<TGenome>.CreateOffspring(uint)
+-------------- produces offspring from asexual reproduction and assigns them a birth generation
+-------------- NeatGenomeFactory.CreateGenomeCopy(NeatGenome, uint, uint)
+---------------- produces a copy of the genome and assigns it a specified ID and birth generation
+---------------- new NeatGenome(NeatGenome, uint, uint)
+------------------ copy constructor that allows changing of ID and birth generation
+------------------ new NeuronGeneList(NeuronGeneList)
+-------------------- copy constructor
+------------------ new ConnectionGeneList(ConnectionGeneList)
+-------------------- copy constructor
+-------------- NeatGenome.Mutate()
+---------------- mutates the NeatGenome object
+---------------- RouletteWheel.SingleThrow(RouletteWheelLayout, FastRandom)
+------------------ returns a random outcome from a selection of choices that have different probabilities of being selected
+---------------- Mutate_ConnectionWeights()
+------------------ mutates the weight values for connections
+------------------ ConnectionMutationInfoList.GetRandomItem(FastRandom)
+-------------------- grabs a random ConnectionMutationInfo object from the list where the object is used to determine how modify weight values
+------------------ Mutate_ConnectionWeights_GetMutateWeightMethod(ConnectionMutationInfo)
+-------------------- returns a MutateWeightMethod delegate based off of the provided ConnectionMutationInfo that performs the specific weight mutation operations
+-------------------- CapWeight(double)
+---------------------- makes sure that the weight provided as the argument does not go beyond the weight range set as a parameter for the NeatGenome
+-------------------- NeatGenomeFactory.SampleGaussianDistribution(double, double)
+---------------------- Don't even know... Something about averages and standard deviation of weight changes
+---------------------- ZigguratGaussianSampler.NextSample(double, double)
+------------------------ Not even going to try...
+------------------------ NextSample()
+-------------------------- Not a clue what's going on here... I need to study this more
+---------------- Mutate_AddNode()
+------------------ adds a new hidden node to the graph
+------------------ Mutate_AddNode_GetIDs(uint, out AddedNeuronGeneStruct)
+-------------------- attempts to find an existing or build a new AddedNeuronGeneStruct for the particular connection that is the subject of an AddNode mutation
+-------------------- new AddedNeuronGeneStruct(UInt32IdGenerator)
+---------------------- produces an AddedNeuronGeneStruct with innovation IDs for the neuron and connection genes
+------------------ NeuronGeneList.InsertIntoPosition(NeuronGene)
+-------------------- inserts a NeuronGene into the list where it was previously contained
+------------------ ConnectionGeneList.InsertIntoPosition(ConnectionGene)
+-------------------- inserts a ConnectionGene into the list where it was previously contained
+---------------- Mutate_AddConnection()
+------------------ adds a new connection between two nodes that did not exist before
+------------------ IsConnectionCyclic(NeuronGene, uint)
+-------------------- tests to see if a possible connection between a NeuronGene and the specified innovation ID would be cyclic
+------------------ Mutate_AddConnection_CreateConnection(NeuronGene, NeuronGene)
+-------------------- finally creates the connection between the two specified neurons (attempts to reuse old IDs) and registers the changes to the target and source neurons
+---------------- Mutate_NodeAuxState()
+------------------ mutates auxiliary values fed the activation function of a neuron
+------------------ IActivationFunction.MutateAuxArgs(double [], FastRandom, ZigguratGaussianSampler, double)
+-------------------- takes care of actually mutating the functions auxiliary arguments
+---------------- Mutate_DeleteConnection()
+------------------ delete's a connection between two nodes
+------------------ IsNeuronRedundant(NeuronGene)
+-------------------- just tests to see if the neuron is not connected in any way to the genome
+---------------- RouletteWheelLayout.RemoveOutcome(int)
+------------------ removes a specific outcome from being selected by RouletteWheel
+------------ CreateOffspring_CrossSpecieMating(RouletteWheelLayout, RouletteWheelLayout [], int, IList<TGenome>)
+-------------- mating in-between species
+-------------- IGenome<TGenome>.CreateOffspring(TGenome, uint)
+---------------- sexual reproduction between to genomes that produces offspring with a specified birth generation
+---------------- CorrelateConnectionGeneLists(ConnectionGeneList, ConnectionGeneList)
+------------------ finds correlations between the connection's present within two genomes
+------------------ new CorrelationResults(int)
+-------------------- creates a list of CorrelationItem objects of a specified capacity
+------------------ new CorrelationItem(CorrelationItemType, ConnectionGene, ConnectionGene)
+-------------------- creates a new correlation between two connections
+------------------ CorrelationResults.PerformIntegrityCheck()
+-------------------- self-explanatory
+---------------- new ConnectionGeneListBuilder(int)
+------------------ a nice little wrapper for ConnectionGeneList
+---------------- NeuronGene.CreateCopy(bool)
+------------------ creates a copy of the neuron and decides whether or not to copy the connectivity data
+------------------ new NeuronGene(NeuronGene, bool)
+-------------------- copy constructor that decides to build connectivity data or not
+---------------- ConnectionGeneListBuilder.TryAddGene(ConnectionGene, NeatGenome, bool)
+------------------ attempts to add a connection to a offspring genome and takes into consideration to override existing genes
+------------------ new ConnectionGene(ConnectionGene)
+-------------------- copy constructor
+---------------- ConnectionGeneListBuilder.IsConnectionCyclic(uint, uint)
+------------------ tests if a connection between two neuron IDs causes a cycle to be formed
+---------- TrimSpeciesBackToElite(SpecieStats []) 
+------------ trims each species back to an elite few
+---------- RebuildGenomeList()
+------------ self-explanatory... clears the overall genome list and adds the genome lists present within the species
+---------- ClearAllSpecies()
+------------ self-explanatory... empties species
+---------- ParallelKMeansClusteringStrategy<TGenome>.SpeciateOffspring(IList<TGenome>, IList<Specie<TGenome>>)
+------------ self-explanatory... it's different than SpeciateGenomes because it uses a non-empty specie list
+------------ SpeciationUtils.TestPopulatedSpecies(IList<Specie<TGenome>>)
+-------------- just tests to see that all species are populated
+---------- IComplexityRegulationStrategy.DetermineMode(NeatAlgorithmStats)
+------------ determines whether to switch between Complexification or Simplification
+-------- UpdateTest()
+---------- tests to see if it is time to make a routinely call OnUpdateEvent() if the thread has been running for a certain timespan without any updates made
+-------- OnUpdateEvent()
+---------- calls the UpdateEvent EventHandler that is optionally defined by the programmer
+-------- OnPausedEvent()
+---------- calls the PausedEvent EventHandler that is optionally defined by the programmer
