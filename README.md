@@ -1,4 +1,4 @@
-The concept of the "runtime weights" promotes the use of neural plasticity by mutations that take place in neuroevolution and attempts to bring about modular behavior in artificial neural networks.
+The concept of the "runtime weights" promotes the use of neural plasticity and attempts to bring about modular behavior in artificial neural networks.
 
 This project is very rough work-in-progress.
 
