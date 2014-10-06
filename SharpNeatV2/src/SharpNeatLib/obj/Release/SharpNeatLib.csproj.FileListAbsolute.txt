@@ -17,3 +17,13 @@ C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatLib\
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.csproj.GenerateResource.Cache
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.dll
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.pdb
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\bin\Release\SharpNeatLib.XML
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\bin\Release\SharpNeatLib.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\bin\Release\SharpNeatLib.pdb
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\bin\Release\log4net.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\bin\Release\log4net.xml
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.csprojResolveAssemblyReference.cache
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeat.Properties.Resources.resources
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.csproj.GenerateResource.Cache
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.pdb

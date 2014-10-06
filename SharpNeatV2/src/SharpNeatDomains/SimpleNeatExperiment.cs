@@ -128,7 +128,13 @@ namespace SharpNeat.Domains
             _complexityRegulationStr = XmlUtils.TryGetValueAsString(xmlConfig, "ComplexityRegulationStrategy");
             _complexityThreshold = XmlUtils.TryGetValueAsInt(xmlConfig, "ComplexityThreshold");
             _description = XmlUtils.TryGetValueAsString(xmlConfig, "Description");
+            int? temp_rw = XmlUtils.TryGetValueAsInt(xmlConfig, "RuntimeWeights");
             _parallelOptions = ExperimentUtils.ReadParallelOptions(xmlConfig);
+
+            if (temp_rw != null)
+            {
+                runtimeWeightExtensionFlag = (temp_rw.Value > 0);
+            }
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being (Jason Palacios)

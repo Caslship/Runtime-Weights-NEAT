@@ -24,3 +24,16 @@ C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatView
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.csproj.GenerateResource.Cache
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.dll
 C:\Users\Jason\Desktop\School\Research\Summer 2014\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.pdb
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatViewLib.XML
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatViewLib.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatViewLib.pdb
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatLib.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\log4net.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatLib.pdb
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\SharpNeatLib.xml
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\bin\Release\log4net.xml
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.csprojResolveAssemblyReference.cache
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeat.View.GraphControl.resources
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.csproj.GenerateResource.Cache
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.dll
+C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatViewLib\obj\Release\SharpNeatViewLib.pdb
