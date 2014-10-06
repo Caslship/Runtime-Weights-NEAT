@@ -1,5 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Experiments>
+	<Experiment name="AND-OR Modular (Runtime Weights)">
+		<AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
+		<ClassName>SharpNeat.Domains.AndOrModular.AndOrModularExperiment</ClassName>
+		<Config>
+			<PopulationSize>50</PopulationSize>
+			<SpecieCount>5</SpecieCount>
+			<Activation>
+				<Scheme>Acyclic</Scheme>
+			</Activation>
+			<ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
+			<ComplexityThreshold>15</ComplexityThreshold>
+			<RuntimeWeights>1</RuntimeWeights>
+			<Description>
+AND-OR Modular Domain - The point of this simple experiment
+is to try and force a genome to implement modular behavior
+through the use of runtime weights. The experiment switches
+between evaluating a phenome against AND operations and OR
+operations.
+
+Fitness is set by how many operations have correct output.
+			</Description>
+		</Config>
+	</Experiment>
 
   <Experiment name="Binary 3-Multiplexer (NEAT)">
     <AssemblyPath>SharpNeatDomains.dll</AssemblyPath>

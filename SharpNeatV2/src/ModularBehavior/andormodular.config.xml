@@ -7,6 +7,7 @@
   </Activation>
   <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
   <ComplexityThreshold>15</ComplexityThreshold>
+  <RuntimeWeights>1</RuntimeWeights>
   <Description>
     AND-OR Modular Domain - The point of this simple experiment
     is to try and force a genome to implement modular behavior

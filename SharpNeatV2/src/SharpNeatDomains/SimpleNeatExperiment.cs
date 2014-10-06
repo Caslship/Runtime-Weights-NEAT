@@ -47,7 +47,7 @@ namespace SharpNeat.Domains
     /// evaluations) then you probably want to implement your own INeatExperiment
     /// class.
     /// </summary>
-    public abstract class SimpleNeatExperiment : /*INeatExperiment -- commented out to implement IGuiNeatExperiment (Jason Palacios) */ IGuiNeatExperiment
+    public abstract class SimpleNeatExperiment : /* INeatExperiment -- commented out to implement IGuiNeatExperiment (Jason Palacios) */ IGuiNeatExperiment
     {
         NeatEvolutionAlgorithmParameters _eaParams;
         NeatGenomeParameters _neatGenomeParams;
@@ -113,9 +113,11 @@ namespace SharpNeat.Domains
         /// </summary>
         public void Initialize(string name, XmlElement xmlConfig)
         {
+            // Calls new overloaded method (Jason Palacios)
             Initialize(name, xmlConfig, false);
         }
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
         /// <summary>
         /// Initialize the experiment with some optional XML configutation data (Runtime Weight Extension)
         /// </summary>
@@ -128,7 +130,7 @@ namespace SharpNeat.Domains
             _complexityRegulationStr = XmlUtils.TryGetValueAsString(xmlConfig, "ComplexityRegulationStrategy");
             _complexityThreshold = XmlUtils.TryGetValueAsInt(xmlConfig, "ComplexityThreshold");
             _description = XmlUtils.TryGetValueAsString(xmlConfig, "Description");
-            int? temp_rw = XmlUtils.TryGetValueAsInt(xmlConfig, "RuntimeWeights");
+            int? temp_rw = XmlUtils.TryGetValueAsInt(xmlConfig, "RuntimeWeights"); // Read potential value for runtime weights extension usage
             _parallelOptions = ExperimentUtils.ReadParallelOptions(xmlConfig);
 
             if (temp_rw != null)
@@ -137,12 +139,13 @@ namespace SharpNeat.Domains
             }
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
-            if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being (Jason Palacios)
+            if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being
             _eaParams.SpecieCount = _specieCount;
-            _neatGenomeParams = new NeatGenomeParameters(runtimeWeightExtensionFlag); // decide whether or not to use runtime weights (Jason Palacios)
+            _neatGenomeParams = new NeatGenomeParameters(runtimeWeightExtensionFlag); // decide whether or not to use runtime weights
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
         }
 
+        // [CONTINUE] NashCoding's original code for SimpleNeatExperiment.cs
         /// <summary>
         /// Load a population of genomes from an XmlReader and returns the genomes in a new list.
         /// The genome2 factory for the genomes can be obtained from any one of the genomes.

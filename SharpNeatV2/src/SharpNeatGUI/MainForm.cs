@@ -1452,16 +1452,19 @@ namespace SharpNeatGUI
                     // Update stats on screen.
                     UpdateGuiState_EaStats();
 
-                    // Write entry to log window.
+                    // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+                    // Indicate whether or not the champ genome is using runtime weights and log it to the window
                     ConnectionGeneList ChampGenomeConnections = _ea.CurrentChampGenome.ConnectionGeneList;
                     foreach (ConnectionGene connection in ChampGenomeConnections)
                     {
                         if (connection.RuntimeWeightSourceFlag || connection.RuntimeWeightTargetFlag)
                         {
-                            MessageBox.Show("Champ genome is using runtime weights!!", "Success!", MessageBoxButtons.OK);
+                            __log.Info("Champ genome is using runtime weights!!");
                             break;
                         }
                     }
+                    // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
+                    // Write entry to log window.
                     __log.Info(string.Format("gen={0:N0} bestFitness={1:N6}", _ea.CurrentGeneration, _ea.Statistics._maxFitness));
 
                     // Check if we should save the champ genome to a file.

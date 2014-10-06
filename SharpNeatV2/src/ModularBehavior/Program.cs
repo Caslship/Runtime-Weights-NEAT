@@ -26,7 +26,7 @@ namespace ModularBehavior
             // Load config XML and initialize experiment with Runtime Weights Extension enabled.
             XmlDocument xmlConfig = new XmlDocument();
             xmlConfig.Load("andormodular.config.xml");
-            experiment.Initialize("And-Or-Modular", xmlConfig.DocumentElement, true);
+            experiment.Initialize("And-Or-Modular", xmlConfig.DocumentElement/*, true*/);
 
             // Create evolution algorithm.
             _ea = experiment.CreateEvolutionAlgorithm();
@@ -41,6 +41,7 @@ namespace ModularBehavior
 
         static void ea_UpdateEvent(object sender, EventArgs e)
         {
+            // Indicate whether the champ genome contains runtime weights
             ConnectionGeneList ChampGenomeConnections = _ea.CurrentChampGenome.ConnectionGeneList;
             foreach (ConnectionGene connection in ChampGenomeConnections)
             {
@@ -50,6 +51,7 @@ namespace ModularBehavior
                     break;
                 }
             }
+            // Write the current generation and the best fitness to the console
             Console.WriteLine(string.Format("gen={0:N0} bestFitness={1:N6}", _ea.CurrentGeneration, _ea.Statistics._maxFitness));
         }
     }

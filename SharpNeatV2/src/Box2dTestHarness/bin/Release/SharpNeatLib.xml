@@ -2868,6 +2868,31 @@
             Gets the connection's weight.
             </summary>
         </member>
+        <member name="P:SharpNeat.Network.INetworkConnection.RuntimeWeightSourceFlag">
+            <summary>
+            Gets the connection's flag that indicates whether or not it contains a runtime weight.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.INetworkConnection.RuntimeWeightTargetFlag">
+            <summary>
+            Gets the connection's flag that indicates whether or not it targets a runtime weight
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.INetworkConnection.SourceConnectionId">
+            <summary>
+            Gets the ID of the connection's runtime weight's source connection.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.INetworkConnection.TargetConnectionId">
+            <summary>
+            Gets the ID of the connection's target connection.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.INetworkConnection.InnovationId">
+            <summary>
+            Gets the ID of the connection.
+            </summary>
+        </member>
         <member name="F:SharpNeat.Genomes.Neat.ConnectionGene._isMutated">
             <summary>
             Used by the connection mutation routine to flag mutated connections so that they aren't
@@ -2882,6 +2907,11 @@
         <member name="M:SharpNeat.Genomes.Neat.ConnectionGene.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Double)">
             <summary>
             Construct a new ConnectionGene with the specified source and target neurons and connection weight.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Genomes.Neat.ConnectionGene.#ctor(System.UInt32,System.UInt32,System.UInt32,System.Double,System.Boolean,System.Boolean,System.UInt32,System.UInt32)">
+            <summary>
+            Construct a new ConnectionGene with the specified source and target neurons, connection weight, and target connection, and flags related to runtime weights.
             </summary>
         </member>
         <member name="M:SharpNeat.Genomes.Neat.ConnectionGene.CreateCopy">
@@ -2914,6 +2944,26 @@
             Gets or sets a value indicating whether this gene has been mutated. This allows the mutation routine to avoid mutating
             genes it has already operated on. These flags are reset for all Connection genes within a NeatGenome on exiting
             the mutation routine.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.ConnectionGene.RuntimeWeightSourceFlag">
+            <summary>
+            Gets or sets the connection's runtime weight source flag.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.ConnectionGene.RuntimeWeightTargetFlag">
+            <summary>
+            Gets or sets the connection's runtime weight targetting flag.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.ConnectionGene.SourceConnectionId">
+            <summary>
+            Gets or sets the connection's runtime weight source connection.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.ConnectionGene.TargetConnectionId">
+            <summary>
+            Gets or sets the connection's runtime weight target connection.
             </summary>
         </member>
         <member name="T:SharpNeat.Genomes.Neat.ConnectionGeneListBuilder">
@@ -3352,6 +3402,18 @@
             Redundant neurons are hidden neurons with no connections attached to them.
             </summary>
         </member>
+        <member name="M:SharpNeat.Genomes.Neat.NeatGenome.Mutate_AddRuntimeWeight">
+            <summary>
+            Method that adds a runtime weight to the genome... the method is much like Mutate_AddConnection()
+            ENHANCEMENT: Allow for smarter selection of where to place runtime weights via a history on which nodes or connections keep on being deleted and then reimplemented in the genome?
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Genomes.Neat.NeatGenome.Mutate_DeleteRuntimeWeight">
+            <summary>
+            Method that deletes a runtime weight to the genome... the method is much like Mutate_DeleteConnection()
+            ENHANCEMENT: Allow for smarter selection of runtime weights to delete via measure of the complexity of the subgraph that targets it?
+            </summary>
+        </member>
         <member name="M:SharpNeat.Genomes.Neat.NeatGenome.CorrelateConnectionGeneLists(SharpNeat.Genomes.Neat.ConnectionGeneList,SharpNeat.Genomes.Neat.ConnectionGeneList)">
             <summary>
             Correlates the ConnectionGenes from two distinct genomes based upon gene innovation numbers.
@@ -3616,6 +3678,16 @@
             Total number of 'delete simple neuron' mutations.
             </summary>
         </member>
+        <member name="F:SharpNeat.Genomes.Neat.NeatGenomeStats._mutationCountAddRuntimeWeight">
+            <summary>
+            Total number of 'add runtime weight' mutations.
+            </summary>
+        </member>
+        <member name="F:SharpNeat.Genomes.Neat.NeatGenomeStats._mutationCountDeleteRuntimeWeight">
+            <summary>
+            Total number of 'delete runtime weight' mutations.
+            </summary>
+        </member>
         <member name="T:SharpNeat.Genomes.Neat.NeatGenomeParameters">
             <summary>
             Represents parameters specific to NEAT genomes. E.g. parameters that describe probabilities
@@ -3632,6 +3704,11 @@
         <member name="M:SharpNeat.Genomes.Neat.NeatGenomeParameters.#ctor">
             <summary>
             Construct with default set of parameters.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Genomes.Neat.NeatGenomeParameters.#ctor(System.Boolean)">
+            <summary>
+            Construct with default set of parameters with the runtime weight extension taken into consideration.
             </summary>
         </member>
         <member name="M:SharpNeat.Genomes.Neat.NeatGenomeParameters.#ctor(SharpNeat.Genomes.Neat.NeatGenomeParameters)">
@@ -3732,6 +3809,21 @@
         <member name="P:SharpNeat.Genomes.Neat.NeatGenomeParameters.FitnessHistoryLength">
             <summary>
             Gets or sets the fitness history length to be used by genomes when recording their fitness.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.NeatGenomeParameters.AddRuntimeWeightMutationProbability">
+            <summary>
+            Gets or sets the probability that a genome mutation is a 'add runtime weight' mutation.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.NeatGenomeParameters.DeleteRuntimeWeightMutationProbability">
+            <summary>
+            Gets or sets the probability that a genome mutation is a 'delete runtime weight' mutation.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Genomes.Neat.NeatGenomeParameters.RuntimeWeightsExtensionFlag">
+            <summary>
+            Gets the flag that tells if the runtime weight extension is in use
             </summary>
         </member>
         <member name="T:SharpNeat.Genomes.Neat.NeuronGene">
@@ -3983,6 +4075,11 @@
             Constructs with the provided source and target node IDs and weight.
             </summary>
         </member>
+        <member name="M:SharpNeat.Network.NetworkConnection.#ctor(System.UInt32,System.UInt32,System.Double,System.Boolean,System.Boolean,System.UInt32,System.UInt32,System.UInt32)">
+            <summary>
+            Constructs with the provided source and target node IDs and weight and other things related to runtime weights.
+            </summary>
+        </member>
         <member name="P:SharpNeat.Network.NetworkConnection.SourceNodeId">
             <summary>
             Gets the ID of the connection's source node.
@@ -3996,6 +4093,31 @@
         <member name="P:SharpNeat.Network.NetworkConnection.Weight">
             <summary>
             Gets the connection's weight.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.NetworkConnection.RuntimeWeightSourceFlag">
+            <summary>
+            Gets the connection's flag that indicates whether or not it contains a runtime weight.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.NetworkConnection.RuntimeWeightTargetFlag">
+            <summary>
+            Gets the connection's flag that indicates whether or not it targets a runtime weight
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.NetworkConnection.SourceConnectionId">
+            <summary>
+            Gets the ID of the connection's runtime weight's source connection.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.NetworkConnection.TargetConnectionId">
+            <summary>
+            Gets the ID of the connection's target connection.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Network.NetworkConnection.InnovationId">
+            <summary>
+            Gets the ID of the connection.
             </summary>
         </member>
         <member name="T:SharpNeat.Network.NetworkConnectivityData">
@@ -5365,6 +5487,11 @@
             Constructs a Connection with the provided source and target neurons, and connection weight. 
             </summary>
         </member>
+        <member name="M:SharpNeat.Phenomes.NeuralNets.Connection.#ctor(SharpNeat.Phenomes.NeuralNets.Neuron,SharpNeat.Phenomes.NeuralNets.Neuron,System.Double,System.Boolean,SharpNeat.Phenomes.NeuralNets.Connection)">
+            <summary>
+            Constructs a Connection with the provided source and target neurons, connection weight, runtime weight target flag, and target connection. 
+            </summary>
+        </member>
         <member name="P:SharpNeat.Phenomes.NeuralNets.Connection.SourceNeuron">
             <summary>
             Gets the connection's source neuron.
@@ -5383,6 +5510,16 @@
         <member name="P:SharpNeat.Phenomes.NeuralNets.Connection.OutputValue">
             <summary>
             Gets or sets the connection's output value.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Phenomes.NeuralNets.Connection.RuntimeWeightTargetFlag">
+            <summary>
+            Gets or sets the connection's runtime weight targetting flag.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Phenomes.NeuralNets.Connection.TargetConnection">
+            <summary>
+            Gets or sets the connection's runtime weight target connection.
             </summary>
         </member>
         <member name="T:SharpNeat.Phenomes.NeuralNets.CyclicNetwork">
@@ -6184,7 +6321,7 @@
             Get the next sample value from the gaussian distribution.
             </summary>
             <param name="mu">The distribution's mean.</param>
-            <param name="mu">The distribution's standard deviation.</param>
+            <param name="sigma">The distribution's standard deviation.</param>
         </member>
         <member name="M:SharpNeat.Utility.ZigguratGaussianSampler.SampleTail">
             <summary>
@@ -6749,6 +6886,17 @@
             2) The resulting value range is divided into equal sized sub-ranges (categoryCount).
             3) The number of values that fall into each category is determined.
             </summary>
+        </member>
+        <member name="M:SharpNeat.Utility.Utilities.MagnifyFitnessRange(System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Just put this here to get rid of 'Missing XML Comment' warnings (Jason Palacios)
+            </summary>
+            <param name="x"></param>
+            <param name="metricThreshold"></param>
+            <param name="metricMax"></param>
+            <param name="fitnessThreshold"></param>
+            <param name="fitnessMax"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

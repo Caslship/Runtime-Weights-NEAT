@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <Experiments>
-
-	<Experiment name="Modular Behavior Test (Runtime Weights)">
+	<Experiment name="AND-OR Modular (Runtime Weights)">
 		<AssemblyPath>SharpNeatDomains.dll</AssemblyPath>
 		<ClassName>SharpNeat.Domains.AndOrModular.AndOrModularExperiment</ClassName>
 		<Config>

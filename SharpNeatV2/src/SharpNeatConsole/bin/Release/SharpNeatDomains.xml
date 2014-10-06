@@ -14,9 +14,19 @@
             Refresh/update the view with the provided genome.
             </summary>
         </member>
-        <member name="T:SharpNeat.Domains.BinaryElevenMultiplexer.RbfBinaryElevenMultiplexerExperiment">
+        <member name="M:SharpNeat.Domains.AndOrModular.AndOrModularEvaluator.Reset">
             <summary>
-            Binary 11-multiplexer task.
+            Reset the internal state of the evaluation scheme if any exists.
+            </summary>
+        </member>
+        <member name="T:SharpNeat.Domains.SimpleNeatExperiment">
+            <summary>
+            Helper class that hides most of the details of setting up an experiment.
+            If you're just doing a simple console-based experiment, this is probably
+            what you want to inherit from. However, if you need more flexibility
+            (e.g., custom genome/phenome creation or performing complex population
+            evaluations) then you probably want to implement your own INeatExperiment
+            class.
             </summary>
         </member>
         <member name="T:SharpNeat.Domains.INeatExperiment">
@@ -120,6 +130,93 @@
         <member name="M:SharpNeat.Domains.IGuiNeatExperiment.CreateDomainView">
             <summary>
             Create a System.Windows.Forms derived object for displaying output for a domain (e.g. show best genome's output/performance/behaviour in the domain). 
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.Initialize(System.String,System.Xml.XmlElement)">
+            <summary>
+            Initialize the experiment with some optional XML configutation data.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.Initialize(System.String,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initialize the experiment with some optional XML configutation data (Runtime Weight Extension)
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.LoadPopulation(System.Xml.XmlReader)">
+            <summary>
+            Load a population of genomes from an XmlReader and returns the genomes in a new list.
+            The genome2 factory for the genomes can be obtained from any one of the genomes.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.SavePopulation(System.Xml.XmlWriter,System.Collections.Generic.IList{SharpNeat.Genomes.Neat.NeatGenome})">
+            <summary>
+            Save a population of genomes to an XmlWriter.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateGenomeFactory">
+            <summary>
+            Create a genome2 factory for the experiment.
+            Create a genome2 factory with our neat genome2 parameters object and the appropriate number of input and output neuron genes.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm">
+            <summary>
+            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
+            of the algorithm are also constructed and connected up.
+            This overload requires no parameters and uses the default population size.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm(System.Int32)">
+            <summary>
+            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
+            of the algorithm are also constructed and connected up.
+            This overload accepts a population size parameter that specifies how many genomes to create in an initial randomly
+            generated population.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm(SharpNeat.Core.IGenomeFactory{SharpNeat.Genomes.Neat.NeatGenome},System.Collections.Generic.List{SharpNeat.Genomes.Neat.NeatGenome})">
+            <summary>
+            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
+            of the algorithm are also constructed and connected up.
+            This overload accepts a pre-built genome2 population and their associated/parent genome2 factory.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateGenomeDecoder">
+            <summary>
+            Creates a new genome decoder that can be used to convert a genome into a phenome.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateGenomeView">
+            <summary>
+            Create a System.Windows.Forms derived object for displaying genomes.
+            </summary>
+        </member>
+        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateDomainView">
+            <summary>
+            Create a System.Windows.Forms derived object for displaying output for a domain (e.g. show best genome's output/performance/behaviour in the domain). 
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.DefaultPopulationSize">
+            <summary>
+            Gets the default population size to use for the experiment.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.NeatEvolutionAlgorithmParameters">
+            <summary>
+            Gets the NeatEvolutionAlgorithmParameters to be used for the experiment. Parameters on this object can be 
+            modified. Calls to CreateEvolutionAlgorithm() make a copy of and use this object in whatever state it is in 
+            at the time of the call.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.NeatGenomeParameters">
+            <summary>
+            Gets the NeatGenomeParameters to be used for the experiment. Parameters on this object can be modified. Calls
+            to CreateEvolutionAlgorithm() make a copy of and use this object in whatever state it is in at the time of the call.
+            </summary>
+        </member>
+        <member name="T:SharpNeat.Domains.BinaryElevenMultiplexer.RbfBinaryElevenMultiplexerExperiment">
+            <summary>
+            Binary 11-multiplexer task.
             </summary>
         </member>
         <member name="M:SharpNeat.Domains.BinaryElevenMultiplexer.RbfBinaryElevenMultiplexerExperiment.#ctor">
@@ -2135,83 +2232,6 @@
             </summary>
         </member>
         <member name="P:SharpNeat.Domains.PreyCapture.PreyCaptureExperiment.NeatGenomeParameters">
-            <summary>
-            Gets the NeatGenomeParameters to be used for the experiment. Parameters on this object can be modified. Calls
-            to CreateEvolutionAlgorithm() make a copy of and use this object in whatever state it is in at the time of the call.
-            </summary>
-        </member>
-        <member name="T:SharpNeat.Domains.SimpleNeatExperiment">
-            <summary>
-            Helper class that hides most of the details of setting up an experiment.
-            If you're just doing a simple console-based experiment, this is probably
-            what you want to inherit from. However, if you need more flexibility
-            (e.g., custom genome/phenome creation or performing complex population
-            evaluations) then you probably want to implement your own INeatExperiment
-            class.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.Initialize(System.String,System.Xml.XmlElement)">
-            <summary>
-            Initialize the experiment with some optional XML configutation data.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.LoadPopulation(System.Xml.XmlReader)">
-            <summary>
-            Load a population of genomes from an XmlReader and returns the genomes in a new list.
-            The genome2 factory for the genomes can be obtained from any one of the genomes.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.SavePopulation(System.Xml.XmlWriter,System.Collections.Generic.IList{SharpNeat.Genomes.Neat.NeatGenome})">
-            <summary>
-            Save a population of genomes to an XmlWriter.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateGenomeFactory">
-            <summary>
-            Create a genome2 factory for the experiment.
-            Create a genome2 factory with our neat genome2 parameters object and the appropriate number of input and output neuron genes.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm">
-            <summary>
-            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
-            of the algorithm are also constructed and connected up.
-            This overload requires no parameters and uses the default population size.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm(System.Int32)">
-            <summary>
-            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
-            of the algorithm are also constructed and connected up.
-            This overload accepts a population size parameter that specifies how many genomes to create in an initial randomly
-            generated population.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateEvolutionAlgorithm(SharpNeat.Core.IGenomeFactory{SharpNeat.Genomes.Neat.NeatGenome},System.Collections.Generic.List{SharpNeat.Genomes.Neat.NeatGenome})">
-            <summary>
-            Create and return a NeatEvolutionAlgorithm object ready for running the NEAT algorithm/search. Various sub-parts
-            of the algorithm are also constructed and connected up.
-            This overload accepts a pre-built genome2 population and their associated/parent genome2 factory.
-            </summary>
-        </member>
-        <member name="M:SharpNeat.Domains.SimpleNeatExperiment.CreateGenomeDecoder">
-            <summary>
-            Creates a new genome decoder that can be used to convert a genome into a phenome.
-            </summary>
-        </member>
-        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.DefaultPopulationSize">
-            <summary>
-            Gets the default population size to use for the experiment.
-            </summary>
-        </member>
-        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.NeatEvolutionAlgorithmParameters">
-            <summary>
-            Gets the NeatEvolutionAlgorithmParameters to be used for the experiment. Parameters on this object can be 
-            modified. Calls to CreateEvolutionAlgorithm() make a copy of and use this object in whatever state it is in 
-            at the time of the call.
-            </summary>
-        </member>
-        <member name="P:SharpNeat.Domains.SimpleNeatExperiment.NeatGenomeParameters">
             <summary>
             Gets the NeatGenomeParameters to be used for the experiment. Parameters on this object can be modified. Calls
             to CreateEvolutionAlgorithm() make a copy of and use this object in whatever state it is in at the time of the call.
