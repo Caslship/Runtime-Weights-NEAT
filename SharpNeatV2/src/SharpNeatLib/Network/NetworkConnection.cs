@@ -32,9 +32,9 @@ namespace SharpNeat.Network
 
         // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
         bool _rwSrcFlag;
-        readonly bool _rwTgtFlag;
+        bool _rwTgtFlag;
         uint _srcConnectionId;
-        readonly uint _tgtConnectionId;
+        uint _tgtConnectionId;
         readonly uint _innovationId;
 
         #endregion
@@ -103,14 +103,8 @@ namespace SharpNeat.Network
         /// </summary>
         public bool RuntimeWeightSourceFlag 
         {
-            get
-            {
-                return _rwSrcFlag;
-            }
-            set
-            {
-                _rwSrcFlag = value;
-            }
+            get { return _rwSrcFlag; }
+            set { _rwSrcFlag = value; }
         }
 
         /// <summary>
@@ -118,10 +112,8 @@ namespace SharpNeat.Network
         /// </summary>
         public bool RuntimeWeightTargetFlag
         {
-            get
-            {
-                return _rwTgtFlag;
-            }
+            get { return _rwTgtFlag; }
+            set { _rwTgtFlag = value; }
         }
 
         /// <summary>
@@ -129,14 +121,8 @@ namespace SharpNeat.Network
         /// </summary>
         public uint SourceConnectionId 
         {
-            get
-            {
-                return _srcConnectionId;
-            }
-            set
-            {
-                _srcConnectionId = value;
-            }
+            get { return _srcConnectionId; }
+            set { _srcConnectionId = value; }
         }
 
         /// <summary>
@@ -144,10 +130,8 @@ namespace SharpNeat.Network
         /// </summary>
         public uint TargetConnectionId
         {
-            get
-            {
-                return _tgtConnectionId;
-            }
+            get { return _tgtConnectionId; }
+            set { _tgtConnectionId = value; }
         }
 
         /// <summary>
@@ -155,10 +139,7 @@ namespace SharpNeat.Network
         /// </summary>
         public uint InnovationId
         {
-            get
-            {
-                return _innovationId;
-            }
+            get { return _innovationId; }
         }
 
         #endregion

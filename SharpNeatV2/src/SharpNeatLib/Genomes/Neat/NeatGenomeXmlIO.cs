@@ -258,6 +258,7 @@ namespace SharpNeat.Genomes.Neat
                 xw.WriteAttributeString(__AttrSourceId, cGene.SourceNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrTargetId, cGene.TargetNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrWeight, cGene.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
+                // Right here is where I need to introduce runtime weight XML saving (Jason Palacios)
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
@@ -463,6 +464,8 @@ namespace SharpNeat.Genomes.Neat
                         uint srcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
                         uint tgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
                         double weight = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
+                        // Right here is where I need to introduce runtime weight XML loading (Jason Palacios)
+                        //uint rwTgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrRWTargetFlag);
                         ConnectionGene cGene = new ConnectionGene(id, srcId, tgtId, weight);
                         cGeneList.Add(cGene);
                     } 

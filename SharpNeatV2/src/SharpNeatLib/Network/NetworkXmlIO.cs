@@ -267,6 +267,7 @@ namespace SharpNeat.Network
                 xw.WriteAttributeString(__AttrSourceId, con.SourceNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrTargetId, con.TargetNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrWeight, con.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
+                // Right here is where I need to introduce runtime weight XML saving (Jason Palacios)
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
@@ -421,6 +422,7 @@ namespace SharpNeat.Network
                         uint srcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
                         uint tgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
                         double weight = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
+                        // Right here is where I need to introduce runtime weight XML loading (Jason Palacios)
                         NetworkConnection conn = new NetworkConnection(srcId, tgtId, weight);
                         connList.Add(conn);
                     } 

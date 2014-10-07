@@ -67,8 +67,6 @@ namespace SharpNeat.Domains
         public abstract bool EvaluateParents { get; }
         #endregion
 
-
-
         #region INeatExperiment Members
 
         public string Description
@@ -119,7 +117,7 @@ namespace SharpNeat.Domains
 
         // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
         /// <summary>
-        /// Initialize the experiment with some optional XML configutation data (Runtime Weight Extension)
+        /// Initialize the experiment with some optional XML configuration data (Runtime Weight Extension)
         /// </summary>
         public void Initialize(string name, XmlElement xmlConfig, bool runtimeWeightExtensionFlag)
         {

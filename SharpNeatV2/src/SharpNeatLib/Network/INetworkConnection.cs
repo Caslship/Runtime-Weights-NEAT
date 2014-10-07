@@ -44,7 +44,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the connection's flag that indicates whether or not it contains a runtime weight.
         /// </summary>
-        bool RuntimeWeightSourceFlag { get; set; }
+        bool RuntimeWeightSourceFlag { get; }
         /// <summary>
         /// Gets the connection's flag that indicates whether or not it targets a runtime weight
         /// </summary>
@@ -52,7 +52,7 @@ namespace SharpNeat.Network
         /// <summary>
         /// Gets the ID of the connection's runtime weight's source connection.
         /// </summary>
-        uint SourceConnectionId { get; set; }
+        uint SourceConnectionId { get; }
         /// <summary>
         /// Gets the ID of the connection's target connection.
         /// </summary>

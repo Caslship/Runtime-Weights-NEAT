@@ -96,8 +96,6 @@ THINGS TO DO
 -- class NeatGenome : IGenome<NeatGenome>, INetworkDefinition
 ---- PerformIntegrityCheck()
 ------ eventually add code that makes sure runtime weights are set up correctly
--- class ConnectionGene : INetworkConnection
----- SourceConnectionId and TargetConnectionId are signed integers when they should be unsigned... this places a restriction on value range
 -- class ParallelKMeansClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome> where TGenome : class, IGenome<TGenome>
 ---- have runtime weights affect speciation slightly
 -- static class NeatGenomeXmlIO
