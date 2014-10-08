@@ -53,10 +53,17 @@ namespace SharpNeat.Genomes.Neat
         const string __AttrActivationFunctionId = "fnId";
         const string __AttrAuxState = "aux";
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        const string __AttrRWSourceFlag = "rwSrcFlag";
+        const string __AttrRWTargetFlag = "rwTgtFlag";
+        const string __AttrRWSourceId = "rwSrcId";
+        const string __AttrRWTargetId = "rwTgtId";
+
         #endregion
 
         #region Public Static Methods [Save to XmlDocument]
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Writes a single NeatGenome to XML within a containing 'Root' element and the activation function
         /// library that the genome is associated with.
@@ -258,7 +265,14 @@ namespace SharpNeat.Genomes.Neat
                 xw.WriteAttributeString(__AttrSourceId, cGene.SourceNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrTargetId, cGene.TargetNodeId.ToString(NumberFormatInfo.InvariantInfo));
                 xw.WriteAttributeString(__AttrWeight, cGene.Weight.ToString("R", NumberFormatInfo.InvariantInfo));
-                // Right here is where I need to introduce runtime weight XML saving (Jason Palacios)
+
+                // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+                xw.WriteAttributeString(__AttrRWSourceFlag, cGene.RuntimeWeightSourceFlag.ToString());
+                xw.WriteAttributeString(__AttrRWTargetFlag, cGene.RuntimeWeightTargetFlag.ToString());
+                xw.WriteAttributeString(__AttrRWSourceId, cGene.SourceConnectionId.ToString(NumberFormatInfo.InvariantInfo));
+                xw.WriteAttributeString(__AttrRWTargetId, cGene.TargetConnectionId.ToString(NumberFormatInfo.InvariantInfo));
+
+                // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
                 xw.WriteEndElement();
             }
             xw.WriteEndElement();
@@ -464,9 +478,15 @@ namespace SharpNeat.Genomes.Neat
                         uint srcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrSourceId);
                         uint tgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrTargetId);
                         double weight = XmlIoUtils.ReadAttributeAsDouble(xrSubtree, __AttrWeight);
-                        // Right here is where I need to introduce runtime weight XML loading (Jason Palacios)
-                        //uint rwTgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrRWTargetFlag);
-                        ConnectionGene cGene = new ConnectionGene(id, srcId, tgtId, weight);
+
+                        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+                        bool rwSrcFlag = XmlIoUtils.ReadAttributeAsBool(xrSubtree, __AttrRWSourceFlag);
+                        bool rwTgtFlag = XmlIoUtils.ReadAttributeAsBool(xrSubtree, __AttrRWTargetFlag);
+                        uint rwSrcId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrRWSourceId);
+                        uint rwTgtId = XmlIoUtils.ReadAttributeAsUInt(xrSubtree, __AttrRWTargetId);
+
+                        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
+                        ConnectionGene cGene = new ConnectionGene(id, srcId, tgtId, weight, rwSrcFlag, rwTgtFlag, rwSrcId, rwTgtId);
                         cGeneList.Add(cGene);
                     } 
                     while(xrSubtree.ReadToNextSibling(__ElemConnection));

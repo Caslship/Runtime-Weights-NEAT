@@ -139,7 +139,7 @@
         </member>
         <member name="M:SharpNeat.Domains.SimpleNeatExperiment.Initialize(System.String,System.Xml.XmlElement,System.Boolean)">
             <summary>
-            Initialize the experiment with some optional XML configutation data (Runtime Weight Extension)
+            Initialize the experiment with some optional XML configuration data (Runtime Weight Extension)
             </summary>
         </member>
         <member name="M:SharpNeat.Domains.SimpleNeatExperiment.LoadPopulation(System.Xml.XmlReader)">

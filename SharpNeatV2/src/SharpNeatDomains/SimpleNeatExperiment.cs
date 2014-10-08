@@ -128,18 +128,19 @@ namespace SharpNeat.Domains
             _complexityRegulationStr = XmlUtils.TryGetValueAsString(xmlConfig, "ComplexityRegulationStrategy");
             _complexityThreshold = XmlUtils.TryGetValueAsInt(xmlConfig, "ComplexityThreshold");
             _description = XmlUtils.TryGetValueAsString(xmlConfig, "Description");
-            int? temp_rw = XmlUtils.TryGetValueAsInt(xmlConfig, "RuntimeWeights"); // Read potential value for runtime weights extension usage
             _parallelOptions = ExperimentUtils.ReadParallelOptions(xmlConfig);
 
-            if (temp_rw != null)
+            // Runtime weight XML configuration data takes priority over the flag sent to this method only if the flag was originally false
+            if (!runtimeWeightExtensionFlag)
             {
-                runtimeWeightExtensionFlag = (temp_rw.Value > 0);
+                bool? rwFlag = XmlUtils.TryGetValueAsBool(xmlConfig, "RuntimeWeights");
+                runtimeWeightExtensionFlag = (rwFlag != null ? rwFlag.Value : false);
             }
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
             if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being
             _eaParams.SpecieCount = _specieCount;
-            _neatGenomeParams = new NeatGenomeParameters(runtimeWeightExtensionFlag); // decide whether or not to use runtime weights
+            _neatGenomeParams = new NeatGenomeParameters(runtimeWeightExtensionFlag); // decide whether or not to use runtime weight mutations
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;
         }
 

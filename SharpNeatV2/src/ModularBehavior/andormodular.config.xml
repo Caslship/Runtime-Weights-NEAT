@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Config>
   <PopulationSize>50</PopulationSize>
   <SpecieCount>5</SpecieCount>
@@ -7,7 +7,7 @@
   </Activation>
   <ComplexityRegulationStrategy>Absolute</ComplexityRegulationStrategy>
   <ComplexityThreshold>15</ComplexityThreshold>
-  <RuntimeWeights>1</RuntimeWeights>
+  <RuntimeWeights>true</RuntimeWeights>
   <Description>
     AND-OR Modular Domain - The point of this simple experiment
     is to try and force a genome to implement modular behavior

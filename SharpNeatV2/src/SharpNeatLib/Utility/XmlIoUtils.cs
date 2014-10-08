@@ -118,6 +118,17 @@ namespace SharpNeat.Utility
             return dblArr;
         }
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        /// <summary>
+        /// Read the named attribute and parse its string value as a bool.
+        /// </summary>
+        public static bool ReadAttributeAsBool(XmlReader xr, string attrName)
+        {
+            string valStr = xr.GetAttribute(attrName);
+            return bool.Parse(valStr);
+        }
+
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Writes a double array as a comma separated list of values.
         /// </summary>

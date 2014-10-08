@@ -53,10 +53,17 @@ namespace SharpNeat.Network
         const string __AttrAuxState = "aux";
         const string __AttrProbability = "prob";
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        const string __AttrRWSourceFlag = "rwSrcFlag";
+        const string __AttrRWTargetFlag = "rwTgtFlag";
+        const string __AttrRWSourceId = "rwSrcId";
+        const string __AttrRWTargetId = "rwTgtId";
+
         #endregion
 
         #region Public Static Methods [Save to XmlDocument]
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Writes a single NetworkDefinition to XML within a containing 'Root' element and the activation function
         /// library that the genome is associated with.
