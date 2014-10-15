@@ -143,6 +143,47 @@ namespace SharpNeat.Genomes.Neat
                 // fitter parent, and therefore we want to use its connection weight in place of the existing gene's weight.
                 existingConnectionGene.Weight = connectionGene.Weight;
             }
+
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            /*
+            // Add runtime weight target or source connections (if any)
+            if (connectionGene.RuntimeWeightTargetFlag)
+            {
+                // Grab the target connection...
+                ConnectionGene tgtConnectionGene = parentGenome.ConnectionGeneList[parentGenome.ConnectionGeneList.BinarySearch(connectionGene.TargetConnectionId)];
+
+                // TryAddGene to see if we already have the connection in the dictionary
+                ConnectionEndpointsStruct tgtConnectionKey = new ConnectionEndpointsStruct(tgtConnectionGene.SourceNodeId, tgtConnectionGene.TargetNodeId);
+                ConnectionGene existingTargetConnectionGene;
+                if (!_connectionGeneDictionary.TryGetValue(tgtConnectionKey, out existingTargetConnectionGene))
+                {
+                    TryAddGene(tgtConnectionGene, parentGenome, overwriteExisting);
+                }
+                else
+                {
+                    existingTargetConnectionGene.RuntimeWeightSourceFlag = true;
+                    existingTargetConnectionGene.SourceConnectionId = connectionGene.InnovationId;
+                }
+            }
+            else if (connectionGene.RuntimeWeightSourceFlag)
+            {
+                // Grab the source connection...
+                ConnectionGene srcConnectionGene = parentGenome.ConnectionGeneList[parentGenome.ConnectionGeneList.BinarySearch(connectionGene.SourceConnectionId)];
+                
+                // TryAddGene to see if we already have the connection in the dictionary
+                ConnectionEndpointsStruct srcConnectionKey = new ConnectionEndpointsStruct(srcConnectionGene.SourceNodeId, srcConnectionGene.TargetNodeId);
+                ConnectionGene existingSourceConnectionGene;
+                if (!_connectionGeneDictionary.TryGetValue(srcConnectionKey, out existingSourceConnectionGene))
+                {
+                    TryAddGene(srcConnectionGene, parentGenome, overwriteExisting);
+                }
+                else
+                {
+                    existingSourceConnectionGene.RuntimeWeightTargetFlag = true;
+                    existingSourceConnectionGene.TargetConnectionId = connectionGene.InnovationId;
+                }
+            }
+            */
         }
 
         /// <summary>

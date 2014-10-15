@@ -6638,6 +6638,11 @@
             Read the named attribute and parse its string value as an array of doubles.
             </summary>
         </member>
+        <member name="M:SharpNeat.Utility.XmlIoUtils.ReadAttributeAsBool(System.Xml.XmlReader,System.String)">
+            <summary>
+            Read the named attribute and parse its string value as a bool.
+            </summary>
+        </member>
         <member name="M:SharpNeat.Utility.XmlIoUtils.WriteAttributeString(System.Xml.XmlWriter,System.String,System.Double[])">
             <summary>
             Writes a double array as a comma separated list of values.
