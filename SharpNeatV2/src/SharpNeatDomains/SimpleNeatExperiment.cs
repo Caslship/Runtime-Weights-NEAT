@@ -138,7 +138,7 @@ namespace SharpNeat.Domains
             }
 
             _eaParams = new NeatEvolutionAlgorithmParameters();
-            if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being
+            //if (runtimeWeightExtensionFlag) _eaParams = _eaParams.CreateSimplifyingParameters(); // decided to remove sexual reproduction for the time being
             _eaParams.SpecieCount = _specieCount;
             _neatGenomeParams = new NeatGenomeParameters(runtimeWeightExtensionFlag); // decide whether or not to use runtime weight mutations
             _neatGenomeParams.FeedforwardOnly = _activationScheme.AcyclicNetwork;

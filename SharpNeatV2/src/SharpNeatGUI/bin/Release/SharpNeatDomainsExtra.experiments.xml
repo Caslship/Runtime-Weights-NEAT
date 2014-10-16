@@ -106,6 +106,7 @@
       </Activation>
       <ComplexityRegulationStrategy>Relative</ComplexityRegulationStrategy>
       <ComplexityThreshold>10</ComplexityThreshold>
+      <RuntimeWeights>true</RuntimeWeights>
       <Description>
       </Description>
     </Config>

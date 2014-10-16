@@ -145,7 +145,7 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            /*
+            ///*
             // Add runtime weight target or source connections (if any)
             if (connectionGene.RuntimeWeightTargetFlag)
             {
@@ -183,7 +183,7 @@ namespace SharpNeat.Genomes.Neat
                     existingSourceConnectionGene.TargetConnectionId = connectionGene.InnovationId;
                 }
             }
-            */
+            //*/
         }
 
         /// <summary>
