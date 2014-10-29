@@ -1,0 +1,84 @@
+namespace SharpNeat.Domains
+-- public abstract class AbstractGenomeView : UserControl
+---- a class that defines methods to vizualize a genome structure
+-- (NeatGenomeView.cs) public partial class NeatGenomeView : AbstractGenomeView
+---- sets up a window to display genome structures
+-- (NeatGenomeView.Designer.cs) partial class NeatGenomeView
+---- a bunch of generated code
+
+namespace SharpNeat.View
+-- public class GraphControl : UserControl
+---- user control for graph visuals
+-- public interface IViewPortPainter
+---- an interface that must be implemented for classes that paint to a viewport
+---- void Paint(Graphics g, Rectangle viewPortArea, float zoom factor)
+------ paints to the viewport
+-- public class Viewport : UserControl
+---- user control for viewports
+
+namespace SharpNeat.View.Graph
+-- public interface ILayoutManager
+---- an interface to implement when deciding positions of graph nodes to be draw to a 2D surface
+---- void Layout(IOGraph graph, Size layoutArea)
+------ method to be implemented that decides node XY coordinates
+-- public class DepthLayoutManager : ILayoutManager
+---- organizes graph node XY coordinates primarily by node depth (this does not apply to output nodes)
+---- public void Layout(IOGraph graph, Size layoutArea)
+------ given the X-margin, Y-margin, length, and width of the area to draw to, this method goes and sets appropriate XY coordinates for the graph nodes
+---- private void UpdateModelBounds(GraphNode node, ref Size bounds)
+------ just adjusts the current size of the area to be drawn to by checking whether a node's XY coordinates overstepped the current boundaries
+-- public class GridLayoutManager : ILayoutManager
+---- organizes graph node XY coordinates primarily based on a single broken up square which contains all hidden nodes (shitty compared to DepthLayoutManager)
+---- public void Layout(IOGraph graph, Size layoutArea)
+------ organizes hidden node XY coords by just trying to fit them into number of layers which is determined by the number hidden nodes (not by depth)
+---- private void UpdateModelBounds(GraphNode node, ref Size bounds)
+------ just adjusts the current size of the area to be drawn to by checking whether a node's XY coordinates overstepped the current boundaries
+-- public class GraphConnection
+---- merely represents a connection between nodes
+---- EXTEND THIS
+-- public class GraphNode
+---- merely represents a node in a graph
+-- public class IOGraph
+---- merely represents a graph that is easily drawable because all graph nodes have XY coordinates
+-- public class IOGraphPainter
+---- a class that can paint IOGraph to surfaces
+---- public class PaintState
+------ a class that holds data for painting (zoom factor, node diameter based on zoom, connection width, etc)
+------ public ConnectionPointInfo GetNodeStateInfo(GraphNode node)
+-------- returns ConnectionPointInfo for a specific node (dictionary lookup)
+---- public class ConnectionPointInfo
+------ holds data for a GraphNode coordinates (still not entirely clear)
+---- public void PaintNetwork(IOGraph graph, Graphics g, Rectangle viewportArea, float zoomFactor)
+------ sets up data to call the other overloaded PaintNetwork method
+---- protected virtual void PaintNetwork(IOGraph graph, PaintState state)
+------ paints the graph onto the drawing surface defined in the PaintState object
+------ private void PaintConnections(IList<GraphNode> nodeList, PainState state)
+-------- paints connections by grabbing them from the lists present within each node
+-------- protected virtual void PaintConnection(GraphConnection con, PaintState state)
+---------- paints a singular connection
+---------- protected Point ModelToViewport(Point p, PainState state)
+------------ transforms a model coordinate to a viewport coordinate by taking into consideration zoom factor
+---------- protected bool IsPointWithinViewport(Point p, PaintState state)
+------------ returns whether or not a coordinate would even be displayed on the viewport
+---------- ** void Graphics.DrawLine(Pen, Point, Point) **
+------------ ** THIS IS WHAT I WANT -- draws a line from one point to another **
+---------- private void PaintBackConnection(Pen pen, Point srcPos, Point tgtPos, ConnectionPointInfo srcInfo, ConnectionPointInfo tgtInfo, PaintState state)
+------------ paints a connection that goes to a target node that goes behind a source connection (i.e. recurrent connection)
+------------ ** void Graphics.DrawLine(Pen, Point[]) **
+-------------- ** THIS IS WHAT I WANT -- draws multiple lines connecting from point to point **
+------ private void PaintNodes(IList<GraphNode> nodeList, PaintState state)
+-------- paints a list of nodes
+-------- protected virtual void PaintNode(GraphNode node, PaintState state)
+---------- merely paints a node as a square with color and a tag
+---------- void Graphics.FillRectangle(Pen, Rectangle)
+------------ fills a rectangle with a color
+---------- void Graphics.DrawRectangle(Pen, Rectangle)
+------------ draws the outline of a rectangle
+---------- void Graphics.DrawString(string, Font, Brush, PointF)
+------------ draws a string with a specified font, color, and position
+-- public class CppnGraphPainter : IOGraphPainter
+---- I'm not gonna go into detail but this basically code that paints CPPNs
+-- public class IOGraphViewportPainter : IViewPortPainter
+---- a class that acts as a sort of wrapper for painting to the viewport (implements the IViewPortPainter interface)
+---- public void Paint(Graphics g, Rectangle viewportArea, float zoomFactor)
+------ paints an IOGraph to the GDI+ object while keeping in mind zoom factor and the viewport area
