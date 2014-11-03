@@ -1,4 +1,5 @@
-Jason Palacios: A document that traces function calls beginning at the main function of SharpNeatConsole\ProgramExample.cs so I can see everything in relation to one another
+Jason Palacios: 
+A document that traces function calls beginning at the main function of SharpNeatConsole\ProgramExample.cs so I can see everything in relation to one another
 
 -- Main()
 
