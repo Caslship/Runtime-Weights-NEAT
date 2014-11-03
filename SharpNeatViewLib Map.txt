@@ -1,5 +1,13 @@
+Jason Palacios:
+If you see a function call that isn't documented in this little map, I would suggest taking look at "ProgramExample Map.txt"
+
 namespace SharpNeat.Network
 -- public class CyclicNetworkDepthAnalysis
+---- a class used to assign nodes to depth levels before they end up cycling
+---- public NetworkDepthInfo CalculateNodeDepths(INetworkDefinition networkDef)
+------ method that produces an object that keeps information on each specific node and their depth
+------ private void TraverseNode(NodeConnectivityData nodeData, HastSet<uint> visitedNodeSet, int depth)
+-------- travels as far as possible through a network via source and target node references, updating each encountered node's depth if necessary
 
 namespace SharpNeat.Domains
 -- public abstract class AbstractGenomeView : UserControl
