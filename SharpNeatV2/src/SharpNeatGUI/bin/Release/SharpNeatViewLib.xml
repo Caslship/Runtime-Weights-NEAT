@@ -88,6 +88,9 @@
         <member name="F:SharpNeat.View.Graph.IOGraphPainter._connectionNegative">
             <summary>Pen for drawing connections with negative connection weight.</summary>
         </member>
+        <member name="F:SharpNeat.View.Graph.IOGraphPainter._connectionRuntimeWeight">
+            <summary>Pen for drawing connections that target runtime weights. (Jason Palacios)</summary>
+        </member>
         <member name="M:SharpNeat.View.Graph.IOGraphPainter.PaintNetwork(SharpNeat.View.Graph.IOGraph,System.Drawing.Graphics,System.Drawing.Rectangle,System.Single)">
             <summary>
             Paints the provided IOGraph onto the provided GDI+ Graphics drawing surface.
@@ -267,6 +270,16 @@
         <member name="P:SharpNeat.View.Graph.GraphConnection.Weight">
             <summary>
             Gets or sets the connection's weight.
+            </summary>
+        </member>
+        <member name="P:SharpNeat.View.Graph.GraphConnection.RuntimeWeightTargetFlag">
+            <summary>
+            Flag that indicates whether or not the connection targets a runtime weight
+            </summary>
+        </member>
+        <member name="P:SharpNeat.View.Graph.GraphConnection.TargetConnection">
+            <summary>
+            GraphConnection whose weight is the target of this conneciton
             </summary>
         </member>
         <member name="T:SharpNeat.View.Graph.GraphNode">

@@ -1,3 +1,6 @@
+namespace SharpNeat.Network
+-- public class CyclicNetworkDepthAnalysis
+
 namespace SharpNeat.Domains
 -- public abstract class AbstractGenomeView : UserControl
 ---- a class that defines methods to vizualize a genome structure

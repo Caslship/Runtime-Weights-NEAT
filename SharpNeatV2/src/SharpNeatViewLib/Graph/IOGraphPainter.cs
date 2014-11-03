@@ -41,6 +41,8 @@ namespace SharpNeat.View.Graph
         protected static readonly Color _connectionPositive = Color.Red;
         /// <summary>Pen for drawing connections with negative connection weight.</summary>
         protected static readonly Color _connectionNegative = Color.Blue;
+        /// <summary>Pen for drawing connections that target runtime weights. (Jason Palacios)</summary>
+        protected static readonly Color _connectionRuntimeWeight = Color.Green;
 
         #region Painting Methods / High Level
 
@@ -136,10 +138,28 @@ namespace SharpNeat.View.Graph
             Point srcPos = ModelToViewport(con.SourceNode.Position, state);
             Point tgtPos = ModelToViewport(con.TargetNode.Position, state);
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            // Adjust target coordinate to be midpoint of srcPos and tgtPos of target connection
+            if (con.RuntimeWeightTargetFlag)
+            {
+                // Grab target connection to get its source and target coordinates
+                GraphConnection tgtCon = con.TargetConnection;
+                Point tgtCon_srcPos = ModelToViewport(tgtCon.SourceNode.Position, state);
+                Point tgtCon_tgtPos = ModelToViewport(tgtCon.TargetNode.Position, state);
+
+                // Find midpoint for new target coordinates
+                tgtPos.X = (tgtCon_tgtPos.X + tgtCon_srcPos.X) / 2;
+                tgtPos.Y = (tgtCon_tgtPos.Y + tgtCon_srcPos.Y) / 2;
+            }
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Connections leave from the base of the source node and enter the top of the target node.
             // Adjust end points to make them neatly terminate just underneath the edge of the endpoint nodes.
             srcPos.Y += (int)(state._nodeDiameterHalf * 0.9f);
-            tgtPos.Y -= (int)(state._nodeDiameterHalf * 0.9f);
+            if (!con.RuntimeWeightTargetFlag) // Don't want to adjust the coordinate for runtime weight targets (Jason Palacios)
+            {
+                tgtPos.Y -= (int)(state._nodeDiameterHalf * 0.9f);
+            }
 
             // Is any part of the connection within the viewport area?
             if(!IsPointWithinViewport(srcPos, state) && !IsPointWithinViewport(tgtPos, state))
@@ -154,7 +174,10 @@ namespace SharpNeat.View.Graph
 
             width = Math.Max(1f, Math.Abs(width));
             Pen pen = new Pen(con.Weight < 0f ? _connectionNegative : _connectionPositive, width);
-      
+
+            // Color connections that target runtime weights green (Jason Palacios)
+            if (con.RuntimeWeightTargetFlag) pen = new Pen(_connectionRuntimeWeight, width);
+
             // Draw the connection line.
             if(tgtPos.Y > srcPos.Y)
             {   

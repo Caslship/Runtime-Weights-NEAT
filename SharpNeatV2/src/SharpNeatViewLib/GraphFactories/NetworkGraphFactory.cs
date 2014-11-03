@@ -98,18 +98,21 @@ namespace SharpNeat.View.Graph
             // and target nodes.
             double maxAbsWeight = 0.1; // Start at a non-zero value to prevent possibility of a divide by zero occuring.
             IConnectionList connectionList = networkDef.ConnectionList;
-            int connCount = connectionList.Count;            
+            int connCount = connectionList.Count;
+
+            Dictionary<uint, GraphConnection> connDict = new Dictionary<uint, GraphConnection>(connCount); // Building a dictionary to lookup GraphConnection's based off of innovation ID (Jason Palacios)
+
+            // Start building part of the connections that lack runtime weight properties (Jason Palacios)
             for(int i=0; i<connCount; i++)
             {
                 // Create connection object and assign its source and target nodes.
                 INetworkConnection connection = connectionList[i];
                 GraphNode sourceNode = nodeDict[connection.SourceNodeId];
                 GraphNode targetNode = nodeDict[connection.TargetNodeId];
-                GraphConnection conn = new GraphConnection(sourceNode, targetNode, (float)connection.Weight); 
-    
-                // Add the connection to the connection lists on the source and target nodes.
-                sourceNode.OutConnectionList.Add(conn);
-                targetNode.InConnectionList.Add(conn);
+                GraphConnection conn = new GraphConnection(sourceNode, targetNode, (float)connection.Weight);
+
+                // Add connection to dictionary (Jason Palacios)
+                connDict.Add(connection.InnovationId, conn);
 
                 // Track weight range oevr all connections.
                 double absWeight = Math.Abs(connection.Weight);
@@ -118,6 +121,32 @@ namespace SharpNeat.View.Graph
                 }
             }
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            // Build runtime weight properties and finalize connections
+            for (int i = 0; i < connCount; i++)
+            {
+                // Grab necessary data
+                INetworkConnection connection = connectionList[i];
+                GraphConnection conn = connDict[connection.InnovationId];
+                GraphNode sourceNode = nodeDict[connection.SourceNodeId];
+                GraphNode targetNode = nodeDict[connection.TargetNodeId];
+
+                // Set runtime specific runtime weight properties
+                conn.RuntimeWeightTargetFlag = connection.RuntimeWeightTargetFlag;
+
+                // Add target connection if any
+                if (conn.RuntimeWeightTargetFlag)
+                {
+                    GraphConnection targetConn = connDict[connection.TargetConnectionId];
+                    conn.TargetConnection = targetConn;
+                }
+
+                // Add the connection to the connection lists on the source and target nodes.
+                sourceNode.OutConnectionList.Add(conn);
+                targetNode.InConnectionList.Add(conn);
+            }
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             ioGraph.ConnectionWeightRange = (float)maxAbsWeight;
             return ioGraph;
         }

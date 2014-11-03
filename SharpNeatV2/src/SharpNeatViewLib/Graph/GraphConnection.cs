@@ -27,8 +27,17 @@ namespace SharpNeat.View.Graph
         GraphNode _targetNode;
         float _weight;
 
+        #region Runtime Weights Extension - Instance Fields
+
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        bool _rwTgtFlag;
+        GraphConnection _tgtConnection;
+
+        #endregion
+
         #region Constructor
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Constructs a connection between the specified source and target nodes and of the specified weight.
         /// </summary>
@@ -37,6 +46,8 @@ namespace SharpNeat.View.Graph
             _sourceNode = sourceNode;
             _targetNode = targetNode;
             _weight = weight;
+            _rwTgtFlag = false;
+            _tgtConnection = null;
         }
 
         #endregion
@@ -68,6 +79,29 @@ namespace SharpNeat.View.Graph
         {
             get { return _weight; }
             set { _weight = value; }
+        }
+
+        #endregion
+
+        #region Runtime Weights Extension - Properties
+
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        /// <summary>
+        /// Flag that indicates whether or not the connection targets a runtime weight
+        /// </summary>
+        public bool RuntimeWeightTargetFlag
+        {
+            get { return _rwTgtFlag; }
+            set { _rwTgtFlag = value; }
+        }
+
+        /// <summary>
+        /// GraphConnection whose weight is the target of this conneciton
+        /// </summary>
+        public GraphConnection TargetConnection
+        {
+            get { return _tgtConnection; }
+            set { _tgtConnection = value; }
         }
 
         #endregion
