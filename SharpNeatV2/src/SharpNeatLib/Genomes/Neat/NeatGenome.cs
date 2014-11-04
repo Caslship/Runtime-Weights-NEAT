@@ -1187,11 +1187,18 @@ namespace SharpNeat.Genomes.Neat
             // Build list...
             foreach (ConnectionGene srcConnection in _connectionGeneList)
             {
-                // Make sure to skip the source connection and only add other connections that target the same neuron...
-                if ((srcConnection.TargetNodeId == sourceConnection.TargetNodeId) && (srcConnection.InnovationId != sourceConnection.InnovationId))
+                // Make sure to skip the source connection, one that doesn't already contain a runtime weight, and that target the same neuron...
+                if ((srcConnection.TargetNodeId == sourceConnection.TargetNodeId) && (srcConnection.InnovationId != sourceConnection.InnovationId) && !srcConnection.RuntimeWeightSourceFlag)
                 {
                     targetConnections.Add(srcConnection);
                 }
+            }
+
+            // While we may have more than one source connection feeding into the target neuron, all of them may already have runtime weights which denies us any connections to target
+            if (targetConnections.Count == 0)
+            {
+                // By this point, we have already made a structure change so we can't return null... however the function has failed to add a runtime weight (work on this?)
+                return new ConnectionGene[] { sourceConnection, null };
             }
 
             // If a runtime weight is applied to a synapses that, originally, held great importance, it may result in a greater chance of encountering modular behavior in the genome
@@ -1199,7 +1206,8 @@ namespace SharpNeat.Genomes.Neat
             double[] probabilities = new double[targetConnections.Count];
             for (int i = 0; i < targetConnections.Count; i++)
             {
-                probabilities[i] = targetConnections[i].Weight;
+                // We take the absolute value because that signifies just how important the connection and how much the activation signal will affect the neuron whether it be positive or negative 
+                probabilities[i] = Math.Abs(targetConnections[i].Weight);
             }
 
             // Build a RouletteWheelLayout object in order to use the probabilities with RouletteWheelSingleThrow()
