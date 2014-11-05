@@ -136,23 +136,10 @@ namespace SharpNeat.View.Graph
         private void PaintConnection(GraphConnection con, PaintState state)
         {
             Point srcPos = ModelToViewport(con.SourceNode.Position, state);
-            Point tgtPos = ModelToViewport(con.TargetNode.Position, state);
 
-            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            // Adjust target coordinate to be midpoint of srcPos and tgtPos of target connection
-            if (con.RuntimeWeightTargetFlag)
-            {
-                // Grab target connection to get its source and target coordinates
-                GraphConnection tgtCon = con.TargetConnection;
-                Point tgtCon_srcPos = ModelToViewport(tgtCon.SourceNode.Position, state);
-                Point tgtCon_tgtPos = ModelToViewport(tgtCon.TargetNode.Position, state);
+            // There are special cases for connections that target runtime weights (Jason Palacios)
+            Point tgtPos = GetConnectionTargetPoint(con, state);
 
-                // Find midpoint for new target coordinates
-                tgtPos.X = (tgtCon_tgtPos.X + tgtCon_srcPos.X) / 2;
-                tgtPos.Y = (tgtCon_tgtPos.Y + tgtCon_srcPos.Y) / 2;
-            }
-
-            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Connections leave from the base of the source node and enter the top of the target node.
             // Adjust end points to make them neatly terminate just underneath the edge of the endpoint nodes.
             srcPos.Y += (int)(state._nodeDiameterHalf * 0.9f);
@@ -312,10 +299,38 @@ namespace SharpNeat.View.Graph
                 && (p.Y < state._viewportArea.Height);
         }
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        /// <summary>
+        /// Written primarily to get endpoints of connections that target runtime weights.
+        /// Through recursion, it handles the case where a connection may target a connection that targets another connection.
+        /// </summary>
+        protected Point GetConnectionTargetPoint(GraphConnection con, PaintState state)
+        {
+            // If the connection doesn't target a runtime weight, don't do anything special
+            if (!con.RuntimeWeightTargetFlag)
+            {
+                return ModelToViewport(con.TargetNode.Position, state);
+            }
+            // If it does, then the target coordinates will be the midpoint of the line between the target connection's source and target coordinates
+            else
+            {
+                // Grab the target connection and its source coordinate
+                GraphConnection tgtCon = con.TargetConnection;
+                Point tgtCon_srcPos = ModelToViewport(tgtCon.SourceNode.Position, state);
+
+                // The target connection may also target a runtime weight, so we need to consider that case
+                Point tgtCon_tgtPos = GetConnectionTargetPoint(tgtCon, state);
+
+                // Find and return the midpoint
+                return new Point((tgtCon_srcPos.X + tgtCon_tgtPos.X) / 2, (tgtCon_srcPos.Y + tgtCon_tgtPos.Y) / 2);
+            }
+        }
+
         #endregion
 
         #region Inner Classes
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Represents data required for by painting routines.
         /// </summary>

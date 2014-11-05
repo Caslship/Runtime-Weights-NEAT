@@ -176,8 +176,13 @@ namespace SharpNeatGUI
             txtParamMutateAddNode.Text = ngParams.AddNodeMutationProbability.ToString();
             txtParamMutateAddConnection.Text = ngParams.AddConnectionMutationProbability.ToString();
             txtParamMutateDeleteConnection.Text = ngParams.DeleteConnectionMutationProbability.ToString();
+
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            txtParamMutateAddRuntimeWeight.Text = ngParams.AddRuntimeWeightMutationProbability.ToString();
+            txtParamMutateDeleteRuntimeWeight.Text = ngParams.DeleteRuntimeWeightMutationProbability.ToString();
         }
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         private IGuiNeatExperiment GetSelectedExperiment()
         {
             if(null == _selectedExperiment && null != cmbExperiments.SelectedItem)
@@ -321,12 +326,17 @@ namespace SharpNeatGUI
             ngParams.AddNodeMutationProbability = ParseDouble(txtParamMutateAddNode, ngParams.AddNodeMutationProbability);
             ngParams.AddConnectionMutationProbability = ParseDouble(txtParamMutateAddConnection, ngParams.AddConnectionMutationProbability);
             ngParams.DeleteConnectionMutationProbability = ParseDouble(txtParamMutateDeleteConnection, ngParams.DeleteConnectionMutationProbability);
+
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            ngParams.AddRuntimeWeightMutationProbability = ParseDouble(txtParamMutateAddRuntimeWeight, ngParams.AddRuntimeWeightMutationProbability);
+            ngParams.DeleteRuntimeWeightMutationProbability = ParseDouble(txtParamMutateDeleteRuntimeWeight, ngParams.DeleteRuntimeWeightMutationProbability);
         }
 
         #endregion
 
         #region GUI Wiring [GUI State Updating]
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         private void UpdateGuiState()
         {
             if(null == _ea)
@@ -385,6 +395,11 @@ namespace SharpNeatGUI
             txtParamMutateAddConnection.Enabled = true;
             txtParamMutateDeleteConnection.Enabled = true;
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            txtParamMutateAddRuntimeWeight.Enabled = true;
+            txtParamMutateDeleteRuntimeWeight.Enabled = true;
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
             gbxLogging.Enabled = true;
 
@@ -426,6 +441,11 @@ namespace SharpNeatGUI
             txtParamMutateAddConnection.Enabled = true;
             txtParamMutateDeleteConnection.Enabled = true;
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            txtParamMutateAddRuntimeWeight.Enabled = true;
+            txtParamMutateDeleteRuntimeWeight.Enabled = true;
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
             gbxLogging.Enabled = true;
 
@@ -470,6 +490,11 @@ namespace SharpNeatGUI
             txtParamMutateAddConnection.Enabled = false;
             txtParamMutateDeleteConnection.Enabled = false;
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            txtParamMutateAddRuntimeWeight.Enabled = false;
+            txtParamMutateDeleteRuntimeWeight.Enabled = false;
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
             gbxLogging.Enabled = true;
 
@@ -514,6 +539,11 @@ namespace SharpNeatGUI
             txtParamMutateAddConnection.Enabled = false;
             txtParamMutateDeleteConnection.Enabled = false;
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            txtParamMutateAddRuntimeWeight.Enabled = false;
+            txtParamMutateDeleteRuntimeWeight.Enabled = false;
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
             gbxLogging.Enabled = false;
 
