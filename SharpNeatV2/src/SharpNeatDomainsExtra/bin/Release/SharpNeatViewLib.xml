@@ -119,7 +119,7 @@
         </member>
         <member name="M:SharpNeat.View.Graph.IOGraphPainter.GetConnectionTargetPoint(SharpNeat.View.Graph.GraphConnection,SharpNeat.View.Graph.IOGraphPainter.PaintState)">
             <summary>
-            Written primarily to get endpoints of connections that target runtime weights.
+            Written primarily to get viewport endpoints of connections that target runtime weights.
             Through recursion, it handles the case where a connection may target a connection that targets another connection.
             </summary>
         </member>

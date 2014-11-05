@@ -46,6 +46,8 @@ namespace SharpNeat.Genomes.Neat
         /// Total number of 'delete simple neuron' mutations.
         /// </summary>
         public ulong _mutationCountDeleteSimpleNeuron;
+
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
         /// <summary>
         /// Total number of 'add runtime weight' mutations.
         /// </summary>

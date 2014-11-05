@@ -301,7 +301,7 @@ namespace SharpNeat.View.Graph
 
         // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
         /// <summary>
-        /// Written primarily to get endpoints of connections that target runtime weights.
+        /// Written primarily to get viewport endpoints of connections that target runtime weights.
         /// Through recursion, it handles the case where a connection may target a connection that targets another connection.
         /// </summary>
         protected Point GetConnectionTargetPoint(GraphConnection con, PaintState state)

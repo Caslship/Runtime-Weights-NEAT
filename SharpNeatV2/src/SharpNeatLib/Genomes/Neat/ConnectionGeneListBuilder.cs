@@ -145,47 +145,84 @@ namespace SharpNeat.Genomes.Neat
             }
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            ///*
             // Add runtime weight target or source connections (if any)
             if (connectionGene.RuntimeWeightTargetFlag)
             {
-                // Grab the target connection...
+                // Grab the target connection within the parent
                 ConnectionGene tgtConnectionGene = parentGenome.ConnectionGeneList[parentGenome.ConnectionGeneList.BinarySearch(connectionGene.TargetConnectionId)];
 
-                // TryAddGene to see if we already have the connection in the dictionary
+                // Try to see if we already have a connection with the same endpoints in the child genome
                 ConnectionEndpointsStruct tgtConnectionKey = new ConnectionEndpointsStruct(tgtConnectionGene.SourceNodeId, tgtConnectionGene.TargetNodeId);
                 ConnectionGene existingTargetConnectionGene;
+
+                // If we don't then add the target connection to the child genome
                 if (!_connectionGeneDictionary.TryGetValue(tgtConnectionKey, out existingTargetConnectionGene))
                 {
                     TryAddGene(tgtConnectionGene, parentGenome, overwriteExisting);
                 }
-                else
-                {
-                    existingTargetConnectionGene.RuntimeWeightSourceFlag = true;
-                    existingTargetConnectionGene.SourceConnectionId = connectionGene.InnovationId;
-                }
+
+                // No matter what make sure to update flags and innovation numbers for target and source connection that exist within the child genome
+
+                // By this point, tgtConnectionGene should either exist within the dictionary or a connection with the same endpoints does.
+                // Either way, we want to be operating on the connection that will exist within the child genome and this is the one that is in the dictionary
+                _connectionGeneDictionary.TryGetValue(tgtConnectionKey, out existingTargetConnectionGene);
+
+                // By this point, connectionGene should either exist within the dictionary or a connection with the same endpoints does.
+                // Either way, we want to be operating on the connection that will exist within the child genome and this is the one that is in the dictionary
+                _connectionGeneDictionary.TryGetValue(connectionKey, out existingConnectionGene);
+
+                // Update flags for runtime weights only for the connections that exist within the child genome
+                existingConnectionGene.RuntimeWeightTargetFlag = true;
+                existingTargetConnectionGene.RuntimeWeightSourceFlag = true;
+
+                // Just because we found an existing connection with the same endpoints as the source connection does not mean that they share the same innovation number...
+                // We must replace the existingTargetConnectionGene source connection ID with the ID of existingConnectionGene
+                existingTargetConnectionGene.SourceConnectionId = existingConnectionGene.InnovationId;
+
+                // Just because we found an existing connection with the same endpoints as the target connection does not mean that they share the same innovation number...
+                // We must replace the existingConnectionGene target connection ID with the ID of existingTargetConnectionGene
+                existingConnectionGene.TargetConnectionId = existingTargetConnectionGene.InnovationId;
             }
             else if (connectionGene.RuntimeWeightSourceFlag)
             {
-                // Grab the source connection...
+                // Grab the source connection within the parent
                 ConnectionGene srcConnectionGene = parentGenome.ConnectionGeneList[parentGenome.ConnectionGeneList.BinarySearch(connectionGene.SourceConnectionId)];
-                
-                // TryAddGene to see if we already have the connection in the dictionary
+
+                // Try to see if we already have a connection with the same endpoints in the child genome
                 ConnectionEndpointsStruct srcConnectionKey = new ConnectionEndpointsStruct(srcConnectionGene.SourceNodeId, srcConnectionGene.TargetNodeId);
                 ConnectionGene existingSourceConnectionGene;
+
+                // If we don't then add the source connection to the child genome
                 if (!_connectionGeneDictionary.TryGetValue(srcConnectionKey, out existingSourceConnectionGene))
                 {
                     TryAddGene(srcConnectionGene, parentGenome, overwriteExisting);
                 }
-                else
-                {
-                    existingSourceConnectionGene.RuntimeWeightTargetFlag = true;
-                    existingSourceConnectionGene.TargetConnectionId = connectionGene.InnovationId;
-                }
+
+                // No matter what make sure to update flags and innovation numbers for target and source connection that exist within the child genome
+
+                // By this point, srcConnectionGene should either exist within the dictionary or a connection with the same endpoints does.
+                // Either way, we want to be operating on the connection that will exist within the child genome
+                _connectionGeneDictionary.TryGetValue(srcConnectionKey, out existingSourceConnectionGene);
+
+                // By this point, connectionGene should either exist within the dictionary or a connection with the same endpoints does.
+                // Either way, we want to be operating on the connection that will exist within the child genome
+                _connectionGeneDictionary.TryGetValue(connectionKey, out existingConnectionGene);
+
+                // Update flags for runtime weights only for the connections that exist within the child genome
+                existingConnectionGene.RuntimeWeightSourceFlag = true;
+                existingSourceConnectionGene.RuntimeWeightTargetFlag = true;
+
+                // Just because we found an existing connection with the same endpoints as the target connection does not mean that they share the same innovation number...
+                // We must replace the existingSourceConnectionGene target connection ID with the ID of existingConnectionGene
+                existingSourceConnectionGene.TargetConnectionId = existingConnectionGene.InnovationId;
+
+                // Just because we found an existing connection with the same endpoints as the source connection does not mean that they share the same innovation number...
+                // We must replace the existingConnectionGene source connection ID with the ID of existingSourceConnectionGene
+                existingConnectionGene.SourceConnectionId = existingSourceConnectionGene.InnovationId;
             }
-            //*/
         }
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Tests if adding the specified connection would cause a cyclic pathway in the network connectivity.
         /// Returns true if the connection would form a cycle.
