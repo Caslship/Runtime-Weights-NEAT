@@ -92,7 +92,7 @@ namespace SharpNeat.Genomes.Neat
         double _addRuntimeWeightMutationProbability;
         double _deleteRuntimeWeightMutationProbability;
         // The only reason why we need this is in CreateSimplifyingParameters(NeatGenome copyFrom)
-        readonly bool _runtimeWeightExtensionFlag;
+        bool _runtimeWeightExtensionFlag;
 
         #endregion
 
@@ -399,6 +399,10 @@ namespace SharpNeat.Genomes.Neat
             get
             {
                 return _runtimeWeightExtensionFlag;
+            }
+            set
+            {
+                _runtimeWeightExtensionFlag = value;
             }
         }
 

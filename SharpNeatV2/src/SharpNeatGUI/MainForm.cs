@@ -178,6 +178,7 @@ namespace SharpNeatGUI
             txtParamMutateDeleteConnection.Text = ngParams.DeleteConnectionMutationProbability.ToString();
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            chkEnableRuntimeWeights.Checked = ngParams.RuntimeWeightsExtensionFlag;
             txtParamMutateAddRuntimeWeight.Text = ngParams.AddRuntimeWeightMutationProbability.ToString();
             txtParamMutateDeleteRuntimeWeight.Text = ngParams.DeleteRuntimeWeightMutationProbability.ToString();
         }
@@ -328,8 +329,9 @@ namespace SharpNeatGUI
             ngParams.DeleteConnectionMutationProbability = ParseDouble(txtParamMutateDeleteConnection, ngParams.DeleteConnectionMutationProbability);
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            ngParams.AddRuntimeWeightMutationProbability = ParseDouble(txtParamMutateAddRuntimeWeight, ngParams.AddRuntimeWeightMutationProbability);
-            ngParams.DeleteRuntimeWeightMutationProbability = ParseDouble(txtParamMutateDeleteRuntimeWeight, ngParams.DeleteRuntimeWeightMutationProbability);
+            ngParams.RuntimeWeightsExtensionFlag = chkEnableRuntimeWeights.Checked;
+            ngParams.AddRuntimeWeightMutationProbability = (ngParams.RuntimeWeightsExtensionFlag ? ParseDouble(txtParamMutateAddRuntimeWeight, ngParams.AddRuntimeWeightMutationProbability) : 0.0);
+            ngParams.DeleteRuntimeWeightMutationProbability = (ngParams.RuntimeWeightsExtensionFlag ? ParseDouble(txtParamMutateDeleteRuntimeWeight, ngParams.DeleteRuntimeWeightMutationProbability) : 0.0);
         }
 
         #endregion
@@ -396,8 +398,12 @@ namespace SharpNeatGUI
             txtParamMutateDeleteConnection.Enabled = true;
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            txtParamMutateAddRuntimeWeight.Enabled = true;
-            txtParamMutateDeleteRuntimeWeight.Enabled = true;
+            chkEnableRuntimeWeights.Enabled = true;
+            if (chkEnableRuntimeWeights.Checked)
+            {
+                txtParamMutateAddRuntimeWeight.Enabled = true;
+                txtParamMutateDeleteRuntimeWeight.Enabled = true;
+            }
 
             // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
@@ -442,8 +448,12 @@ namespace SharpNeatGUI
             txtParamMutateDeleteConnection.Enabled = true;
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
-            txtParamMutateAddRuntimeWeight.Enabled = true;
-            txtParamMutateDeleteRuntimeWeight.Enabled = true;
+            chkEnableRuntimeWeights.Enabled = true;
+            if (chkEnableRuntimeWeights.Checked)
+            {
+                txtParamMutateAddRuntimeWeight.Enabled = true;
+                txtParamMutateDeleteRuntimeWeight.Enabled = true;
+            }
 
             // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Logging to file.
@@ -491,6 +501,7 @@ namespace SharpNeatGUI
             txtParamMutateDeleteConnection.Enabled = false;
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            chkEnableRuntimeWeights.Enabled = false;
             txtParamMutateAddRuntimeWeight.Enabled = false;
             txtParamMutateDeleteRuntimeWeight.Enabled = false;
 
@@ -540,6 +551,7 @@ namespace SharpNeatGUI
             txtParamMutateDeleteConnection.Enabled = false;
 
             // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            chkEnableRuntimeWeights.Enabled = false;
             txtParamMutateAddRuntimeWeight.Enabled = false;
             txtParamMutateDeleteRuntimeWeight.Enabled = false;
 
@@ -1586,9 +1598,36 @@ namespace SharpNeatGUI
 
         #endregion
 
+        #region GUI Wiring [Extensions Event Handlers]
+
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        private void chkEnableRuntimeWeights_CheckedChanged(object sender, EventArgs e)
+        {
+            // Enabling and disabling of the extension
+            if (chkEnableRuntimeWeights.Checked)
+            {
+                label23.Enabled = true;
+                txtParamMutateAddRuntimeWeight.Enabled = true;
+
+                label22.Enabled = true;
+                txtParamMutateDeleteRuntimeWeight.Enabled = true;
+            }
+            else
+            {
+                label23.Enabled = false;
+                txtParamMutateAddRuntimeWeight.Enabled = false;
+
+                label22.Enabled = false;
+                txtParamMutateDeleteRuntimeWeight.Enabled = false;
+            }
+        }
+
+        #endregion
+
         #region Private Methods [Misc Helper Methods]
 
-		/// <summary>
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
+        /// <summary>
 		/// Ask the user for a filename / path.
 		/// </summary>
 		private string SelectFileToOpen(string dialogTitle, string fileExtension, string filter)
@@ -1786,5 +1825,6 @@ namespace SharpNeatGUI
         }
 
         #endregion
+
     }
 }

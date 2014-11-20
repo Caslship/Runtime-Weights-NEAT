@@ -86,7 +86,13 @@
             this.btnExperimentInfo = new System.Windows.Forms.Button();
             this.cmbExperiments = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.gbxExtensions = new System.Windows.Forms.GroupBox();
+            this.chkEnableRuntimeWeights = new System.Windows.Forms.CheckBox();
             this.gbxNeatGenomeParameters = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtParamMutateDeleteRuntimeWeight = new System.Windows.Forms.TextBox();
+            this.txtParamMutateAddRuntimeWeight = new System.Windows.Forms.TextBox();
             this.txtParamConnectionWeightRange = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
@@ -146,10 +152,6 @@
             this.btnCopyLogToClipboard = new System.Windows.Forms.Button();
             this.lbxLog = new System.Windows.Forms.ListBox();
             this.populationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.txtParamMutateAddRuntimeWeight = new System.Windows.Forms.TextBox();
-            this.txtParamMutateDeleteRuntimeWeight = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -162,6 +164,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.gbxExtensions.SuspendLayout();
             this.gbxNeatGenomeParameters.SuspendLayout();
             this.gbxEAParameters.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -732,6 +735,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.gbxExtensions);
             this.tabPage2.Controls.Add(this.gbxNeatGenomeParameters);
             this.tabPage2.Controls.Add(this.gbxEAParameters);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -741,6 +745,27 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Page 2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // gbxExtensions
+            // 
+            this.gbxExtensions.Controls.Add(this.chkEnableRuntimeWeights);
+            this.gbxExtensions.Location = new System.Drawing.Point(8, 231);
+            this.gbxExtensions.Name = "gbxExtensions";
+            this.gbxExtensions.Size = new System.Drawing.Size(493, 167);
+            this.gbxExtensions.TabIndex = 53;
+            this.gbxExtensions.TabStop = false;
+            this.gbxExtensions.Text = "Extensions";
+            // 
+            // chkEnableRuntimeWeights
+            // 
+            this.chkEnableRuntimeWeights.AutoSize = true;
+            this.chkEnableRuntimeWeights.Location = new System.Drawing.Point(6, 20);
+            this.chkEnableRuntimeWeights.Name = "chkEnableRuntimeWeights";
+            this.chkEnableRuntimeWeights.Size = new System.Drawing.Size(107, 17);
+            this.chkEnableRuntimeWeights.TabIndex = 0;
+            this.chkEnableRuntimeWeights.Text = "Runtime Weights";
+            this.chkEnableRuntimeWeights.UseVisualStyleBackColor = true;
+            this.chkEnableRuntimeWeights.CheckedChanged += new System.EventHandler(this.chkEnableRuntimeWeights_CheckedChanged);
             // 
             // gbxNeatGenomeParameters
             // 
@@ -764,6 +789,42 @@
             this.gbxNeatGenomeParameters.TabIndex = 52;
             this.gbxNeatGenomeParameters.TabStop = false;
             this.gbxNeatGenomeParameters.Text = "NEAT Genome Parameters";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(58, 165);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(150, 13);
+            this.label23.TabIndex = 55;
+            this.label23.Text = "p Mutate Add Runtime Weight";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(58, 191);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(162, 13);
+            this.label22.TabIndex = 54;
+            this.label22.Text = "p Mutate Delete Runtime Weight";
+            // 
+            // txtParamMutateDeleteRuntimeWeight
+            // 
+            this.txtParamMutateDeleteRuntimeWeight.Location = new System.Drawing.Point(6, 188);
+            this.txtParamMutateDeleteRuntimeWeight.Name = "txtParamMutateDeleteRuntimeWeight";
+            this.txtParamMutateDeleteRuntimeWeight.Size = new System.Drawing.Size(48, 20);
+            this.txtParamMutateDeleteRuntimeWeight.TabIndex = 53;
+            this.txtParamMutateDeleteRuntimeWeight.Text = "0.0005";
+            this.txtParamMutateDeleteRuntimeWeight.Enabled = false;
+            // 
+            // txtParamMutateAddRuntimeWeight
+            // 
+            this.txtParamMutateAddRuntimeWeight.Location = new System.Drawing.Point(6, 161);
+            this.txtParamMutateAddRuntimeWeight.Name = "txtParamMutateAddRuntimeWeight";
+            this.txtParamMutateAddRuntimeWeight.Size = new System.Drawing.Size(48, 20);
+            this.txtParamMutateAddRuntimeWeight.TabIndex = 52;
+            this.txtParamMutateAddRuntimeWeight.Text = "0.005";
+            this.txtParamMutateAddRuntimeWeight.Enabled = false;
             // 
             // txtParamConnectionWeightRange
             // 
@@ -1255,40 +1316,6 @@
             this.populationToolStripMenuItem.Name = "populationToolStripMenuItem";
             this.populationToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             // 
-            // txtParamMutateAddRuntimeWeight
-            // 
-            this.txtParamMutateAddRuntimeWeight.Location = new System.Drawing.Point(6, 161);
-            this.txtParamMutateAddRuntimeWeight.Name = "txtParamMutateAddRuntimeWeight";
-            this.txtParamMutateAddRuntimeWeight.Size = new System.Drawing.Size(48, 20);
-            this.txtParamMutateAddRuntimeWeight.TabIndex = 52;
-            this.txtParamMutateAddRuntimeWeight.Text = "0.005";
-            // 
-            // txtParamMutateDeleteRuntimeWeight
-            // 
-            this.txtParamMutateDeleteRuntimeWeight.Location = new System.Drawing.Point(6, 188);
-            this.txtParamMutateDeleteRuntimeWeight.Name = "txtParamMutateDeleteRuntimeWeight";
-            this.txtParamMutateDeleteRuntimeWeight.Size = new System.Drawing.Size(48, 20);
-            this.txtParamMutateDeleteRuntimeWeight.TabIndex = 53;
-            this.txtParamMutateDeleteRuntimeWeight.Text = "0.0005";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(58, 191);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(162, 13);
-            this.label22.TabIndex = 54;
-            this.label22.Text = "p Mutate Delete Runtime Weight";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(58, 165);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(150, 13);
-            this.label23.TabIndex = 55;
-            this.label23.Text = "p Mutate Add Runtime Weight";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1316,6 +1343,8 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.gbxExtensions.ResumeLayout(false);
+            this.gbxExtensions.PerformLayout();
             this.gbxNeatGenomeParameters.ResumeLayout(false);
             this.gbxNeatGenomeParameters.PerformLayout();
             this.gbxEAParameters.ResumeLayout(false);
@@ -1449,5 +1478,7 @@
         private System.Windows.Forms.TextBox txtParamMutateDeleteRuntimeWeight;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.GroupBox gbxExtensions;
+        private System.Windows.Forms.CheckBox chkEnableRuntimeWeights;
     }
 }

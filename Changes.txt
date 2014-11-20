@@ -98,8 +98,6 @@ THINGS TO DO
 ------ eventually add code that makes sure runtime weights are set up correctly
 -- class ParallelKMeansClusteringStrategy<TGenome> : ISpeciationStrategy<TGenome> where TGenome : class, IGenome<TGenome>
 ---- have runtime weights affect speciation slightly
--- static class NeatGenomeXmlIO
----- I should add in the ability to save/load runtime weights from XML
 -- GET THINGS WORKING WITH HYPERNEAT
 
 POSSIBLE BUG IN ORIGINAL CODE
