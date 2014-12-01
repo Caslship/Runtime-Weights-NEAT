@@ -717,13 +717,38 @@ namespace SharpNeat.EvolutionAlgorithms
             double totalComplexity = _genomeList[0].Complexity;
             double maxComplexity = totalComplexity;
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            int countRuntimeWeight = 0;
+            _stats._maxFitnessRuntimeWeight = 0.0;
+            _stats._meanFitnessRuntimeWeight = 0.0;
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             int count = _genomeList.Count;
             for(int i=1; i<count; i++) {
                 totalFitness += _genomeList[i].EvaluationInfo.Fitness;
                 totalComplexity += _genomeList[i].Complexity;
                 maxComplexity = Math.Max(maxComplexity, _genomeList[i].Complexity);
+
+                // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+                SharpNeat.Genomes.Neat.NeatGenome genome = _genomeList[i] as SharpNeat.Genomes.Neat.NeatGenome;
+                foreach (SharpNeat.Genomes.Neat.ConnectionGene connection in genome.ConnectionGeneList)
+                {
+                    if (connection.RuntimeWeightSourceFlag || connection.RuntimeWeightTargetFlag)
+                    {
+                        _stats._meanFitnessRuntimeWeight += genome.EvaluationInfo.Fitness;
+                        countRuntimeWeight++;
+                        if (genome.EvaluationInfo.Fitness > _stats._maxFitnessRuntimeWeight)
+                        {
+                            _stats._maxFitnessRuntimeWeight = genome.EvaluationInfo.Fitness;
+                        }
+                        break;
+                    }
+                }
             }
 
+            _stats._meanFitnessRuntimeWeight /= ((countRuntimeWeight <= 0) ? 1 : countRuntimeWeight);
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             _stats._maxFitness = _currentBestGenome.EvaluationInfo.Fitness;
             _stats._meanFitness = totalFitness / count;
 

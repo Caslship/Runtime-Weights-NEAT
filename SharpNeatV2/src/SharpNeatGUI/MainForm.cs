@@ -877,6 +877,18 @@ namespace SharpNeatGUI
                                                                 return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._bestFitnessMA.Mean);
                                                             }));
 
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            _dsList.Add(new TimeSeriesDataSource("Best - Runtime Weight", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Magenta, delegate()
+                                                            {
+                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._maxFitnessRuntimeWeight);
+                                                            }));
+            _dsList.Add(new TimeSeriesDataSource("Mean - Runtime Weight", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Turquoise, delegate()
+                                                            {
+                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._meanFitnessRuntimeWeight);
+                                                            }));
+
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
+
             // Create a data sources for any auxiliary fitness info.
             AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
             if(null != auxFitnessArr)

@@ -1665,6 +1665,16 @@
             The mean fitness of current specie champions.
             </summary>
         </member>
+        <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._maxFitnessRuntimeWeight">
+            <summary>
+            The best fitness of genomes with runtime weights
+            </summary>
+        </member>
+        <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._meanFitnessRuntimeWeight">
+            <summary>
+            The mean fitness of gneomes with runtime weights
+            </summary>
+        </member>
         <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._maxComplexity">
             <summary>
             The complexity of the most complex genome.

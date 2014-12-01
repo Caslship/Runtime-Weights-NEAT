@@ -66,10 +66,21 @@ namespace SharpNeat.EvolutionAlgorithms
         /// </summary>
         public double _meanSpecieChampFitness;
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        /// <summary>
+        /// The best fitness of genomes with runtime weights
+        /// </summary>
+        public double _maxFitnessRuntimeWeight;
+        /// <summary>
+        /// The mean fitness of gneomes with runtime weights
+        /// </summary>
+        public double _meanFitnessRuntimeWeight;
+
         #endregion
 
         #region Complexity Stats
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// The complexity of the most complex genome.
         /// </summary>
