@@ -888,7 +888,6 @@ namespace SharpNeatGUI
                                                             }));
 
             // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
-
             // Create a data sources for any auxiliary fitness info.
             AuxFitnessInfo[] auxFitnessArr = _ea.CurrentChampGenome.EvaluationInfo.AuxFitnessArr;
             if(null != auxFitnessArr)
@@ -940,10 +939,20 @@ namespace SharpNeatGUI
                                                             {
                                                                 return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._complexityMA.Mean);
                                                             });
+            // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+            TimeSeriesDataSource dsBestCmplxRW = new TimeSeriesDataSource("Best - Runtime Weight", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Magenta, delegate()
+                                                                            {
+                                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._bestComplexityRuntimeWeight);
+                                                                            });
+            TimeSeriesDataSource dsMeanCmplxRW = new TimeSeriesDataSource("Mean - Runtime Weight", TimeSeriesDataSource.DefaultHistoryLength, 0, Color.Turquoise, delegate()
+                                                                            {
+                                                                                return new Point2DDouble(_ea.CurrentGeneration, _ea.Statistics._meanComplexityRuntimeWeight);
+                                                                            });
 
+            // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             // Create form.
             TimeSeriesGraphForm graphForm = new TimeSeriesGraphForm("Complexity (Best and Mean)", "Generation", "Complexity", string.Empty,
-                                                 new TimeSeriesDataSource[] {dsBestCmplx, dsMeanCmplx, dsMeanCmplxMA}, _ea);
+                                                 new TimeSeriesDataSource[] {dsBestCmplx, dsMeanCmplx, dsMeanCmplxMA, dsBestCmplxRW, dsMeanCmplxRW}, _ea);
             _timeSeriesGraphFormList.Add(graphForm);
 
             // Attach a event handler to update this main form when the graph form is closed.

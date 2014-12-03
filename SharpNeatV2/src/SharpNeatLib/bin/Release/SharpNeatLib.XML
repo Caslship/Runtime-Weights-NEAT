@@ -1685,6 +1685,16 @@
             The mean genome complexity.
             </summary>
         </member>
+        <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._bestComplexityRuntimeWeight">
+            <summary>
+            The complexity of the best genome with runtime weights
+            </summary>
+        </member>
+        <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._meanComplexityRuntimeWeight">
+            <summary>
+            The mean complexity of genomes with runtime weights
+            </summary>
+        </member>
         <member name="F:SharpNeat.EvolutionAlgorithms.NeatAlgorithmStats._totalOffspringCount">
             <summary>
             Total number of offspring created in the lifetime of a NEAT search.

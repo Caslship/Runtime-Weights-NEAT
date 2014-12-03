@@ -26,4 +26,3 @@ C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLi
 C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.csproj.GenerateResource.Cache
 C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.dll
 C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.pdb
-C:\Users\Jason\Documents\GitHub\Runtime-Weights-NEAT\SharpNeatV2\src\SharpNeatLib\obj\Release\SharpNeatLib.csprojResolveAssemblyReference.cache

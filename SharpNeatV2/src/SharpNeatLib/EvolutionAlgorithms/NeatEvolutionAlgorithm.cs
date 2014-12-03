@@ -721,6 +721,8 @@ namespace SharpNeat.EvolutionAlgorithms
             int countRuntimeWeight = 0;
             _stats._maxFitnessRuntimeWeight = 0.0;
             _stats._meanFitnessRuntimeWeight = 0.0;
+            _stats._bestComplexityRuntimeWeight = 0.0;
+            _stats._meanComplexityRuntimeWeight = 0.0;
 
             // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             int count = _genomeList.Count;
@@ -736,10 +738,12 @@ namespace SharpNeat.EvolutionAlgorithms
                     if (connection.RuntimeWeightSourceFlag || connection.RuntimeWeightTargetFlag)
                     {
                         _stats._meanFitnessRuntimeWeight += genome.EvaluationInfo.Fitness;
+                        _stats._meanComplexityRuntimeWeight += genome.Complexity;
                         countRuntimeWeight++;
                         if (genome.EvaluationInfo.Fitness > _stats._maxFitnessRuntimeWeight)
                         {
                             _stats._maxFitnessRuntimeWeight = genome.EvaluationInfo.Fitness;
+                            _stats._bestComplexityRuntimeWeight = genome.Complexity;
                         }
                         break;
                     }
@@ -747,6 +751,7 @@ namespace SharpNeat.EvolutionAlgorithms
             }
 
             _stats._meanFitnessRuntimeWeight /= ((countRuntimeWeight <= 0) ? 1 : countRuntimeWeight);
+            _stats._meanComplexityRuntimeWeight /= ((countRuntimeWeight <= 0) ? 1 : countRuntimeWeight);
 
             // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
             _stats._maxFitness = _currentBestGenome.EvaluationInfo.Fitness;

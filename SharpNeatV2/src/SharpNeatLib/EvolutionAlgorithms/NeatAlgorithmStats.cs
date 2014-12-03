@@ -90,10 +90,21 @@ namespace SharpNeat.EvolutionAlgorithms
         /// </summary>
         public double _meanComplexity;
 
+        // Jason Palacios - 2014 - Runtime Weight Extension - jason.palacios@utexas.edu
+        /// <summary>
+        /// The complexity of the best genome with runtime weights
+        /// </summary>
+        public double _bestComplexityRuntimeWeight;
+        /// <summary>
+        /// The mean complexity of genomes with runtime weights
+        /// </summary>
+        public double _meanComplexityRuntimeWeight;
+
         #endregion
 
         #region Reproduction Stats
 
+        // [CONTINUE] Colin Green's original code for SharpNEAT v2.0
         /// <summary>
         /// Total number of offspring created in the lifetime of a NEAT search.
         /// </summary>
